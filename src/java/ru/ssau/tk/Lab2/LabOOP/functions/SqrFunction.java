@@ -1,4 +1,4 @@
-package functions;
+package ru.ssau.tk.Lab2.LabOOP.functions;
 
 public class SqrFunction implements MathFunction{
 

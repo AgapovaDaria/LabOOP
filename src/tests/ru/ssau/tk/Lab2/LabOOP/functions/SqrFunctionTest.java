@@ -1,8 +1,6 @@
-package functions;
+package ru.ssau.tk.Lab2.LabOOP.functions;
 
 import org.testng.Assert;
-
-import static org.testng.Assert.*;
 
 public class SqrFunctionTest {
 
