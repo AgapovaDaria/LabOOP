@@ -1,5 +1,7 @@
 package functions;
 
 public interface MathFunction {
-    void apply (double x);
+    static double apply (double x) {
+        return x;
+    }
 }
