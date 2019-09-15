@@ -1,10 +1,10 @@
 package ru.ssau.tk.Lab2.LabOOP.functions;
 
-public class CompositeFunction implements ru.ssau.tk.Lab2.LabOOP.functions.MathFunction {
-    private ru.ssau.tk.Lab2.LabOOP.functions.MathFunction firstFunction;
-    private ru.ssau.tk.Lab2.LabOOP.functions.MathFunction secondFunction;
+public class CompositeFunction implements MathFunction {
+    private MathFunction firstFunction;
+    private MathFunction secondFunction;
 
-    public CompositeFunction(ru.ssau.tk.Lab2.LabOOP.functions.MathFunction firstFunction, ru.ssau.tk.Lab2.LabOOP.functions.MathFunction secondFunction) {
+    public CompositeFunction(MathFunction firstFunction, MathFunction secondFunction) {
         this.firstFunction = firstFunction;
         this.secondFunction = secondFunction;
     }
