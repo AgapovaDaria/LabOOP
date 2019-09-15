@@ -6,5 +6,3 @@ public final class IdentityFunction implements MathFunction {
         return x;
     }
 }
-
-

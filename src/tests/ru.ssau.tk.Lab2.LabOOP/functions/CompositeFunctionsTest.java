@@ -9,7 +9,7 @@ public class CompositeFunctionsTest {
 
 
     @Test
-    public void compositeFunctionTest(){
+    public void compositeFunctionTest() {
 
         double x = 9.1;
         MathFunction sqrF = value -> Math.pow(value, 2);
@@ -23,8 +23,8 @@ public class CompositeFunctionsTest {
         MathFunction result1F = sqrF.andThen(invertF);
         MathFunction result2F = plus1F.andThen(invertF).andThen(sqrF);
 
-        assertEquals(resultF.apply(x),0 );
-        assertEquals(result1F.apply(x),Math.pow(x,2) );
-        assertEquals(result2F.apply(x),1 - Math.pow(x,2));
+        assertEquals(resultF.apply(x), 0);
+        assertEquals(result1F.apply(x), Math.pow(x, 2));
+        assertEquals(result2F.apply(x), 1 - Math.pow(x, 2));
     }
 }
