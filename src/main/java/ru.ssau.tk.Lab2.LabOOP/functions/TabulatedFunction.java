@@ -13,10 +13,10 @@ public interface TabulatedFunction extends MathFunction {
     void setY(int index, double value);
 
     //метод,возвращающий индекс аргумента х
-    int index0fX(double x);
+    int indexOfX(double x);
 
     //метод, возвращающий индекс первого вхождения значения у
-    int index0fY(double y);
+    int indexOfY(double y);
 
     //метод, возвращающий самый левый х
     double leftBound();
