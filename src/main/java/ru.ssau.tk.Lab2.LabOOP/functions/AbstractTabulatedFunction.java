@@ -2,7 +2,7 @@ package ru.ssau.tk.Lab2.LabOOP.functions;
 
 public abstract class AbstractTabulatedFunction implements TabulatedFunction {
 
-    private int count;
+    protected int count;
 
     public AbstractTabulatedFunction(int length) {
         count = length;
