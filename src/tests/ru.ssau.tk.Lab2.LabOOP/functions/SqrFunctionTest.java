@@ -7,7 +7,7 @@ public class SqrFunctionTest {
     @org.testng.annotations.Test
     public void testApply() {
         // arrange
-        Double x = 12.5;
+        double x = 12.5;
         MathFunction func = new SqrFunction();
         double result;
 
