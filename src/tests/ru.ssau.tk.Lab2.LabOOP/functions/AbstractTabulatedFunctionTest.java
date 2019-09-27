@@ -8,7 +8,7 @@ public class AbstractTabulatedFunctionTest {
 
     private  static final int LENGTH = 10;
 
-    public AbstractTabulatedFunction tabulatedFunction = new AbstractTabulatedFunction(LENGTH) {
+    public AbstractTabulatedFunction tabulatedFunction = new AbstractTabulatedFunction() {
         @Override
         protected double extrapolateLeft(double x) {
             return 0;

@@ -4,8 +4,11 @@ public abstract class AbstractTabulatedFunction implements TabulatedFunction {
 
     protected int count;
 
-    public AbstractTabulatedFunction(int length) {
-        count = length;
+    AbstractTabulatedFunction() {
+    }
+
+    AbstractTabulatedFunction(int length) {
+        if (length > 0) count = length;
     }
 
     protected int floorIndexOfX(double x) {
@@ -41,17 +44,13 @@ public abstract class AbstractTabulatedFunction implements TabulatedFunction {
         if (x > rightBound()) return extrapolateRight(x);
 
         int i = indexOfX(x);
-        if(i != -1) return getY(i);
+        if (i != -1) return getY(i);
 
-        return  interpolate(x, floorIndexOfX(x));
+        return interpolate(x, floorIndexOfX(x));
     }
 
     public int getCount() {
         return count;
-    }
-
-    private void setCount(int count) {
-        this.count = count;
     }
 
 }
