@@ -5,7 +5,7 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
     private Node last; //последний узел списка "хвост"
     private int count;
 
-    private void addNode(double x, double y) {
+    protected void addNode(double x, double y) {
         Node newNode = new Node();
         if (head == null) {
             head = new Node();
@@ -13,6 +13,7 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
             newNode.prev = head;
             newNode.x = x;
             newNode.y = y;
+            last = newNode;
         } else {
             newNode.next = head;
             newNode.prev = last;
