@@ -8,7 +8,7 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
     protected void addNode(double x, double y) {
         Node newNode = new Node();
         if (head == null) {
-            head = new Node();
+            head = newNode;
             newNode.next = head;
             newNode.prev = head;
             newNode.x = x;
@@ -28,7 +28,7 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
 
     public LinkedListTabulatedFunction(double[] xValues, double[] yValues) {
         this.count = xValues.length; // Длина массива совпадает с полем
-        for (int i = 1; i < count; i++) {
+        for (int i = 0; i < count; i++) {
             this.addNode(xValues[i], yValues[i]); // используется для ссылки на текущий класс с учетом метода
         }
     }
@@ -36,11 +36,11 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
     public LinkedListTabulatedFunction(MathFunction source, double xFrom, double xTo, int count) {
         this.count = count;
         if (xFrom > xTo) {
-            xFrom = xFrom - xTo;
-            xTo = xFrom + xTo;
-            xFrom = -xFrom + xTo;
+            double z = xTo;
+            xTo = xFrom;
+            xFrom = z;
         }
-        double hx = (xTo - xFrom) / (count + 1); //шаг разбиения
+        double hx = (xTo - xFrom) / (count - 1); //шаг разбиения
         double a = xFrom;
         if (xFrom != xTo) {
             for (int i = 0; i < count; i++) {
@@ -177,6 +177,6 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
         }
         Node left = getNode(floorIndex);
         Node right = left.next;
-        return left.y + (right.y - left.y) / (right.x - left.x) * (x - left.x);
+        return left.y + (right.y - left.y) * (x - left.x) / (right.x - left.x);
     }
 }
