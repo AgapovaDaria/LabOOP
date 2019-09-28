@@ -20,11 +20,11 @@ public class CompositeFunctionsTest {
         };
 
         MathFunction resultF = sqrF.andThen(zeroF).andThen(invertF);
-        MathFunction result1F = sqrF.andThen(invertF);
-        MathFunction result2F = plus1F.andThen(invertF).andThen(sqrF);
+        MathFunction result1F = invertF.andThen(sqrF);
+        MathFunction result2F = sqrF.andThen(invertF).andThen(plus1F);
 
         assertEquals(resultF.apply(x), 0);
-        assertEquals(result1F.apply(x), Math.pow(x, 2));
+        assertEquals(result1F.apply(x),  Math.pow(x, 2));
         assertEquals(result2F.apply(x), 1 - Math.pow(x, 2));
     }
 }

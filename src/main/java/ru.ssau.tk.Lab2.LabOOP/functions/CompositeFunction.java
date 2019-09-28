@@ -12,7 +12,7 @@ public class CompositeFunction implements MathFunction {
 
     @Override
     public double apply(double x) {
-        return firstFunction.apply(secondFunction.apply(x));
+        return secondFunction.apply(firstFunction.apply(x));
     }
 
 }
