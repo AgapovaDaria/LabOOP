@@ -115,5 +115,21 @@ public class LinkedListTabulatedFunctionTest {
         LinkedListTabulatedFunction secondList = ListOfFunc();
         assertEquals(secondList.floorIndexOfX(2.16),0 );
     }
+
+    @Test
+    public void testExtrapolateLeft() {
+        LinkedListTabulatedFunction firstList = ListOfArray();
+        LinkedListTabulatedFunction secondList = ListOfFunc();
+        assertEquals(firstList.extrapolateLeft(0), 9);
+        assertEquals(secondList.extrapolateLeft(0),-12);
+    }
+
+    @Test
+    public void testExtrapolateRight() {
+        LinkedListTabulatedFunction firstList = ListOfArray();
+        LinkedListTabulatedFunction secondList = ListOfFunc();
+        assertEquals(firstList.extrapolateRight(12.5),15.875);
+        assertEquals(secondList.extrapolateRight(16),3964);
+    }
 }
 
