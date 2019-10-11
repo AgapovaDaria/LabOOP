@@ -48,7 +48,8 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
 
     @Override
     protected double extrapolateLeft(double x) {
-        return interpolate(x, getX(0), getX(1), getY(0), getX(1));
+
+        return interpolate(x, getX(0), getX(1), getY(0), getY(1));
     }
 
     @Override
@@ -57,7 +58,7 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
     }
 
     @Override
-    //Без проверок на корректность данных. Зпускается в методе apply()
+    //Без проверок на корректность данных. Запускается в методе apply()
     protected double interpolate(double x, int floorIndex) {
         return interpolate(x, getX(floorIndex), getX(floorIndex+1), getY(floorIndex), getY(floorIndex+1));
     }

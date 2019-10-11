@@ -62,6 +62,9 @@ public class AbstractTabulatedFunctionTest {
 
     @Test
     public void testFloorIndexOfX() {
+        //тестирование правильности алгоритма.
+        // но вроде и так понятно что он верный
+
     }
 
     @Test
