@@ -27,4 +27,19 @@ public class CompositeFunctionsTest {
         assertEquals(result1F.apply(x),  Math.pow(x, 2));
         assertEquals(result2F.apply(x), 1 - Math.pow(x, 2));
     }
+
+    @Test
+    public void testApply() {
+        MathFunction firstFunction = new IdentityFunction();
+        MathFunction secondFunction = new ThirdFunction();
+        MathFunction function = new CompositeFunction(firstFunction, secondFunction);
+        assertEquals(function.apply(2), 8, 0.0001);
+
+        double[] xValues = new double[]{4, 6, 7};
+        double[] yValues = new double[]{8, 4, 6 };
+        MathFunction list = new LinkedListTabulatedFunction(xValues, yValues);
+        assertEquals(secondFunction.apply(1.5), 3.375, 0.0001);
+        assertEquals(list.apply(4), 8, 0.0001);
+        assertEquals(list.andThen(secondFunction).apply(5), 216, 0.0001);
+    }
 }
