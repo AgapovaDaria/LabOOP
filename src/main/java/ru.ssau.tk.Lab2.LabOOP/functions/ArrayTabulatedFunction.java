@@ -10,12 +10,12 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
     public ArrayTabulatedFunction(double[] xValues, double[] yValues) {
 
         // Если длины разные, то общая длина = min
-        if (xValues.length != yValues.length)  count = Math.min(xValues.length, yValues.length);
+        if (xValues.length != yValues.length) count = Math.min(xValues.length, yValues.length);
 
         count = xValues.length;
 
         this.xValues = Arrays.copyOf(xValues, xValues.length);
-        this.yValues = yValues.clone();
+        this.yValues = Arrays.copyOf(yValues, yValues.length);
     }
 
     public ArrayTabulatedFunction(MathFunction source, double xFrom, double xTo, int count) {
@@ -54,43 +54,51 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
 
     @Override
     protected double extrapolateRight(double x) {
-        return interpolate(x, getX(count - 2), getX(count-1 ), getY(count-2), getY(count-1));
+        return interpolate(x, getX(count - 2), getX(count - 1), getY(count - 2), getY(count - 1));
     }
 
     @Override
     //Без проверок на корректность данных. Запускается в методе apply()
     protected double interpolate(double x, int floorIndex) {
-        return interpolate(x, getX(floorIndex), getX(floorIndex+1), getY(floorIndex), getY(floorIndex+1));
+        return interpolate(x, getX(floorIndex), getX(floorIndex + 1), getY(floorIndex), getY(floorIndex + 1));
     }
 
     @Override
     public double getX(int index) {
-        if (isCorrectIndex(index))
+        if (isCorrectIndex(index)) {
             return xValues[index];
-        else return 0;
+        } else {
+            return 0;
+        }
     }
 
     @Override
     public double getY(int index) {
-        if (isCorrectIndex(index))
+        if (isCorrectIndex(index)) {
             return yValues[index];
-        else return 0;
+        } else {
+            return 0;
+        }
     }
 
     @Override
     public void setY(int index, double value) {
-        if (isCorrectIndex(index))
+        if (isCorrectIndex(index)) {
             yValues[index] = value;
+        }
     }
 
     @Override
     public int indexOfX(double x) {
-        if (x < leftBound() || x > rightBound()) return -1;
+        if (x < leftBound() || x > rightBound()) {
+            return -1;
+        }
         double val;
-        for (int i = 0; i< count;i++){
+        for (int i = 0; i < count; i++) {
             val = xValues[i];
-            if(val == x) return i;
-            if(x < val) break;
+            if (val == x) {
+                return i;
+            }
         }
         return -1;
     }
@@ -98,14 +106,16 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
     @Override
     public int indexOfY(double y) {
         for (int i = 0; i < count; i++) {
-            if (yValues[i] == y) return i;
+            if (yValues[i] == y) {
+                return i;
+            }
         }
         return -1;
     }
 
     @Override
     public double leftBound() {
-        return count > 1 ? xValues[0] : 0;
+        return count >= 1 ? xValues[0] : 0;
     }
 
     @Override

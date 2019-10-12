@@ -3,7 +3,11 @@ package ru.ssau.tk.Lab2.LabOOP.functions;
 public interface TabulatedFunction extends MathFunction {
     int getCount(); // метод получения количества табулированных значений
 
-    // метод, получающий значение аргумента x по номеру индекса
+    /**
+     * метод, получающий значение аргумента x по номеру индекса
+     *
+     * @param index индекс
+     */
     double getX(int index);
 
     // метод, получающий значение у по номеру индекса

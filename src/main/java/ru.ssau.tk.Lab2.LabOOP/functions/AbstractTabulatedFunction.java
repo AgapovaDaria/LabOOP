@@ -13,9 +13,13 @@ public abstract class AbstractTabulatedFunction implements TabulatedFunction {
 
     protected int floorIndexOfX(double x) {
         int index = indexOfX(x);
-        if (index != -1) return index;
+        if (index != -1) {
+            return index;
+        }
 
-        if (rightBound() < x) return count;
+        if (rightBound() < x) {
+            return count;
+        }
 
         for (int i = 0; i < getCount(); i++) {
             double value = getX(i);
@@ -23,7 +27,9 @@ public abstract class AbstractTabulatedFunction implements TabulatedFunction {
                 index = i;
             }
         }
-        if (index == -1) return 0;
+        if (index == -1) {
+            return 0;
+        }
 
         return index;
     }
@@ -40,11 +46,17 @@ public abstract class AbstractTabulatedFunction implements TabulatedFunction {
 
     @Override
     public double apply(double x) {
-        if (x < leftBound()) return extrapolateLeft(x);
-        if (x > rightBound()) return extrapolateRight(x);
+        if (x < leftBound()) {
+            return extrapolateLeft(x);
+        }
+        if (x > rightBound()) {
+            return extrapolateRight(x);
+        }
 
         int i = indexOfX(x);
-        if (i != -1) return getY(i);
+        if (i != -1) {
+            return getY(i);
+        }
 
         return interpolate(x, floorIndexOfX(x));
     }

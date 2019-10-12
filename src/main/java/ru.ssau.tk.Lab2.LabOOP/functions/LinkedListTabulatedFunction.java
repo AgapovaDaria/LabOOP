@@ -3,10 +3,11 @@ package ru.ssau.tk.Lab2.LabOOP.functions;
 public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
     private Node head; // первый элемент "голова"
     private Node last; //последний узел списка "хвост"
-    private int count;
+    private int count = 0;
 
     protected void addNode(double x, double y) {
         Node newNode = new Node();
+        count++;
         if (head == null) {
             head = newNode;
             newNode.next = head;
@@ -22,19 +23,16 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
             newNode.x = x;
             newNode.y = y;
             last = newNode;
-
         }
     }
 
     public LinkedListTabulatedFunction(double[] xValues, double[] yValues) {
-        this.count = xValues.length; // Длина массива совпадает с полем
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < xValues.length; i++) {
             this.addNode(xValues[i], yValues[i]); // используется для ссылки на текущий класс с учетом метода
         }
     }
 
     public LinkedListTabulatedFunction(MathFunction source, double xFrom, double xTo, int count) {
-        this.count = count;
         if (xFrom > xTo) {
             double z = xTo;
             xTo = xFrom;
@@ -157,7 +155,7 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
         if (head.x == last.x) {
             return head.y;
         }
-        return head.y + (head.next.y - head.y) / (head.next.x - head.x) * (x - head.x);
+        return interpolate(x, head.x, head.next.x, head.y, head.next.y);
     }
 
 
@@ -166,7 +164,7 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
         if (head.x == last.x) {
             return head.y;
         }
-        return last.prev.y + (last.y - last.prev.y) * (x - last.prev.x) / (last.x - last.prev.x);
+        return interpolate(x, last.prev.x, last.x, last.prev.y, last.y);
 
     }
 
@@ -177,6 +175,6 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
         }
         Node left = getNode(floorIndex);
         Node right = left.next;
-        return left.y + (right.y - left.y) * (x - left.x) / (right.x - left.x);
+        return interpolate(x, left.x, right.x, left.y, right.y);
     }
 }

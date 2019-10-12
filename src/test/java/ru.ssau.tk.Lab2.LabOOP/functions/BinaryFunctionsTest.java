@@ -19,7 +19,7 @@ public class BinaryFunctionsTest {
     }
 
     @Test
-    public void  unitFunctionTest() {
+    public void unitFunctionTest() {
         double x = Math.random();
         int value = 1;
         double result;
@@ -30,5 +30,5 @@ public class BinaryFunctionsTest {
         Assert.assertEquals(result, value);
     }
 
-    }
+}
 

@@ -1,26 +1,23 @@
 package ru.ssau.tk.Lab2.LabOOP.functions;
 
-import jdk.internal.org.objectweb.asm.tree.analysis.Interpreter;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.*;
 
 public class ArrayTabulatedFunctionTest {
 
 
     private int count;
 
-    private double xFrom = 1.5;
-    private double xTo = 9;
+    private final static double xFrom = 1.5;
+    private final static double xTo = 9;
 
     private double[] masX = new double[]{1.5, 5.25, 9};
     private double[] masY;
 
     private MathFunction source = (x) -> x * x;
-    private AbstractTabulatedFunction function_one;
-    private AbstractTabulatedFunction function_two;
+    private AbstractTabulatedFunction functionOne;
+    private AbstractTabulatedFunction functionTwo;
 
 
     @BeforeClass
@@ -32,23 +29,23 @@ public class ArrayTabulatedFunctionTest {
             masY[i] = source.apply(masX[i]);
         }
 
-        function_one = new ArrayTabulatedFunction(masX, masY);
-        function_two = new ArrayTabulatedFunction(source, xFrom, xTo, count);
+        functionOne = new ArrayTabulatedFunction(masX, masY);
+        functionTwo = new ArrayTabulatedFunction(source, xFrom, xTo, count);
 
     }
 
     @Test(dependsOnMethods = {"testGetX", "testGetY"})
     public void testValues() {
         for (int i = 0; i < count; i++) {
-            Assert.assertEquals(function_one.getX(i), function_two.getX(i));
-            Assert.assertEquals(function_one.getY(i), function_two.getY(i));
+            Assert.assertEquals(functionOne.getX(i), functionTwo.getX(i));
+            Assert.assertEquals(functionOne.getY(i), functionTwo.getY(i));
         }
     }
 
     @Test(dependsOnMethods = {"testGetY", "testGetX"})
     public void testExtrapolateLeft() {
 
-        AbstractTabulatedFunction fun2 = function_two;
+        AbstractTabulatedFunction fun2 = functionTwo;
         double xNum = fun2.getX(0) - 0.25; // ==1.0
         int index = fun2.floorIndexOfX(xNum);
 
@@ -61,7 +58,7 @@ public class ArrayTabulatedFunctionTest {
 
     @Test(dependsOnMethods = {"testGetY", "testGetX"})
     public void testExtrapolateRight() {
-        AbstractTabulatedFunction fun1 = function_two;
+        AbstractTabulatedFunction fun1 = functionTwo;
         double xNum = fun1.getX(count - 1) + 1.; // ==
         int index = fun1.floorIndexOfX(xNum);
 
@@ -74,8 +71,8 @@ public class ArrayTabulatedFunctionTest {
 
     @Test(dependsOnMethods = {"testGetY", "testGetX"})
     public void testInterpolate() {
-        AbstractTabulatedFunction fun = function_two;
-        double xNum = (fun.getX(2) + function_one.getX(1)) / 2; // ==1.875
+        AbstractTabulatedFunction fun = functionTwo;
+        double xNum = (fun.getX(2) + functionOne.getX(1)) / 2; // ==1.875
         int index = fun.floorIndexOfX(xNum);
 
         double trueResult = fun.getY(1) + ((fun.getY(2) - (fun.getY(1))) /
@@ -93,49 +90,55 @@ public class ArrayTabulatedFunctionTest {
         double value = masX[count - 1];
         double middleValue = (masX[0] + masX[1]) / 2;
 
-        Assert.assertEquals(function_two.extrapolateLeft(leftValue), function_two.apply(leftValue));
-        Assert.assertEquals(function_two.extrapolateRight(rightValue), function_two.apply(rightValue));
-        Assert.assertEquals(function_two.getY(count - 1), function_two.apply(value));
-        Assert.assertEquals(function_one.interpolate(middleValue, function_one.floorIndexOfX(middleValue)), function_one.apply(middleValue));
+        Assert.assertEquals(functionTwo.extrapolateLeft(leftValue), functionTwo.apply(leftValue));
+        Assert.assertEquals(functionTwo.extrapolateRight(rightValue), functionTwo.apply(rightValue));
+        Assert.assertEquals(functionTwo.getY(count - 1), functionTwo.apply(value));
+        Assert.assertEquals(functionOne.interpolate(middleValue, functionOne.floorIndexOfX(middleValue)), functionOne.apply(middleValue));
     }
 
     @Test
     public void testGetX() {
-        Assert.assertEquals(masX[count - 1], function_one.getX(count - 1));
-        Assert.assertEquals(masX[count - 1], function_two.getX(count - 1));
+        Assert.assertEquals(masX[count - 1], functionOne.getX(count - 1));
+        Assert.assertEquals(masX[count - 1], functionTwo.getX(count - 1));
     }
 
     @Test
     public void testGetY() {
-        Assert.assertEquals(masY[count - 1], function_one.getY(count - 1));
-        Assert.assertEquals(masY[count - 1], function_two.getY(count - 1));
+        Assert.assertEquals(masY[count - 1], functionOne.getY(count - 1));
+        Assert.assertEquals(masY[count - 1], functionTwo.getY(count - 1));
+    }
+
+    @Test
+    public void testSetY(){
+        functionOne.setY(2,81);
+        Assert.assertEquals(81, functionOne.getY(2), 0.0001);
     }
 
     @Test
     public void testIndexOfX() {
-        Assert.assertEquals(-1, function_one.indexOfX(masX[0] - 1));
-        Assert.assertEquals(-1, function_one.indexOfX(masX[count - 1] + 1));
-        Assert.assertEquals(1, function_one.indexOfX(masX[1]));
-        Assert.assertEquals(count - 1, function_one.indexOfX(masX[count - 1]));
+        Assert.assertEquals(-1, functionOne.indexOfX(masX[0] - 1));
+        Assert.assertEquals(-1, functionOne.indexOfX(masX[count - 1] + 1));
+        Assert.assertEquals(1, functionOne.indexOfX(masX[1]));
+        Assert.assertEquals(count - 1, functionOne.indexOfX(masX[count - 1]));
     }
 
     @Test
     public void testIndexOfY() {
-        Assert.assertEquals(-1, function_one.indexOfY(masY[0] - 1));
-        Assert.assertEquals(-1, function_one.indexOfY(masY[count - 1] + 1));
-        Assert.assertEquals(1, function_one.indexOfY(masY[1]));
-        Assert.assertEquals(count - 1, function_one.indexOfY(masY[count - 1]));
+        Assert.assertEquals(-1, functionOne.indexOfY(masY[0] - 1));
+        Assert.assertEquals(-1, functionOne.indexOfY(masY[count - 1] + 1));
+        Assert.assertEquals(1, functionOne.indexOfY(masY[1]));
+        Assert.assertEquals(count - 1, functionOne.indexOfY(masY[count - 1]));
     }
 
     @Test
     public void testLeftBound() {
-        Assert.assertEquals(masX[0], function_one.leftBound());
-        Assert.assertEquals(masX[0], function_two.leftBound());
+        Assert.assertEquals(masX[0], functionOne.leftBound());
+        Assert.assertEquals(masX[0], functionTwo.leftBound());
     }
 
     @Test
     public void testRightBound() {
-        Assert.assertEquals(masX[count - 1], function_one.rightBound());
-        Assert.assertEquals(masX[count - 1], function_two.rightBound());
+        Assert.assertEquals(masX[count - 1], functionOne.rightBound());
+        Assert.assertEquals(masX[count - 1], functionTwo.rightBound());
     }
 }
