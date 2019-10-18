@@ -6,13 +6,17 @@ public abstract class AbstractTabulatedFunction implements TabulatedFunction {
 
     AbstractTabulatedFunction() {
     }
+    /*RuntimeException exception= new IllegalArgumentException("Х меньше левой границы");*/
 
-    AbstractTabulatedFunction(int length) {
-        if (length > 0) count = length;
-    }
+    /*AbstractTabulatedFunction(int length) {
+        if (length >= 2) count = length;
+        else throw exception;
+    }*/
 
-    protected int floorIndexOfX(double x) {
+    protected abstract int floorIndexOfX(double x) throws IllegalArgumentException;
+    /*{
         int index = indexOfX(x);
+
         if (index != -1) {
             return index;
         }
@@ -32,7 +36,8 @@ public abstract class AbstractTabulatedFunction implements TabulatedFunction {
         }
 
         return index;
-    }
+    }*/
+
 
     abstract protected double extrapolateLeft(double x);
 

@@ -9,8 +9,11 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
 
     public ArrayTabulatedFunction(double[] xValues, double[] yValues) {
 
-        // Если длины разные, то общая длина = min
-        if (xValues.length != yValues.length) count = Math.min(xValues.length, yValues.length);
+        if (xValues.length < 2) {
+            throw new IllegalArgumentException("Массив меньше данной длины");
+        }
+        /* Если длины разные, то общая длина = min
+        if (xValues.length != yValues.length) count = Math.min(xValues.length, yValues.length);*/
 
         count = xValues.length;
 
@@ -25,6 +28,10 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
         xValues = new double[count];
         yValues = new double[count];
 
+        if (count < 2) {
+            throw new IllegalArgumentException("Шаг меньше минимальной длины");
+        }
+
         if (xFrom > xTo) {
             double tmp = xFrom;
             xFrom = xTo;
@@ -33,18 +40,30 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
 
         double len = (xTo - xFrom) / (count - 1);
 
-        int i = 0;
         double x = xFrom;
 
-        while (i < count && x <= xTo) {
+        for (int i =0; i<count; i++) {
             xValues[i] = x;
             yValues[i] = source.apply(x);
             x += len;
-            i++;
         }
 
     }
 
+
+    @Override
+    protected int floorIndexOfX(double x)  {
+        int i;
+        if (x < xValues[0]) {
+            throw new IllegalArgumentException("Аргумент x меньше минимального в табличной функции");
+        }
+        for (i = 0; i < count; i++) {
+            if (xValues[i] > x) {
+                return i - 1;
+            }
+        }
+        return count;
+    }
 
     @Override
     protected double extrapolateLeft(double x) {
@@ -64,7 +83,7 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
     }
 
     @Override
-    public double getX(int index) {
+    public double getX(int index) throws ArrayIndexOutOfBoundsException  {
         if (isCorrectIndex(index)) {
             return xValues[index];
         } else {
@@ -73,7 +92,7 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
     }
 
     @Override
-    public double getY(int index) {
+    public double getY(int index) throws ArrayIndexOutOfBoundsException  {
         if (isCorrectIndex(index)) {
             return yValues[index];
         } else {
@@ -82,7 +101,7 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
     }
 
     @Override
-    public void setY(int index, double value) {
+    public void setY(int index, double value) throws ArrayIndexOutOfBoundsException {
         if (isCorrectIndex(index)) {
             yValues[index] = value;
         }

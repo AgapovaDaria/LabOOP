@@ -26,13 +26,19 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
         }
     }
 
-    public LinkedListTabulatedFunction(double[] xValues, double[] yValues) {
+    public LinkedListTabulatedFunction(double[] xValues, double[] yValues) throws IllegalArgumentException {
+        if (xValues.length < 2) {
+            throw new IllegalArgumentException("Длина массива меньше минимальной длины");
+        }
         for (int i = 0; i < xValues.length; i++) {
             this.addNode(xValues[i], yValues[i]); // используется для ссылки на текущий класс с учетом метода
         }
     }
 
     public LinkedListTabulatedFunction(MathFunction source, double xFrom, double xTo, int count) {
+        if (count < 2) {
+            throw new IllegalArgumentException("Количество шагов меньше минимального");
+        }
         if (xFrom > xTo) {
             double z = xTo;
             xTo = xFrom;
@@ -88,15 +94,24 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
         return null;
     }
 
-    public double getX(int index) {
+    public double getX(int index) throws IllegalArgumentException {
+        if (index < 0 || index >= count) {
+            throw new IllegalArgumentException("Индекс не соотвествует");
+        }
         return getNode(index).x;
     }
 
-    public double getY(int index) {
+    public double getY(int index) throws IllegalArgumentException {
+        if (index < 0 || index >= count) {
+            throw new IllegalArgumentException("Индекс не соотвествует");
+        }
         return getNode(index).y;
     }
 
-    public void setY(int index, double value) {
+    public void setY(int index, double value) throws IllegalArgumentException {
+        if (index < 0 || index >= count) {
+            throw new IllegalArgumentException("Индекс не соотвествует");
+        }
         getNode(index).y = value;
     }
 
@@ -126,10 +141,13 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
         return -1;
     }
 
-    public int floorIndexOfX(double x) {
+    public int floorIndexOfX(double x) throws IllegalArgumentException {
         Node a;
         if (x < head.x) {
             return 0;
+        }
+        if (x < head.x) {
+            throw new IllegalArgumentException("Аргумент x меньше минимального");
         }
         a = head;
         for (int i = 0; i < count; i++) {
@@ -169,7 +187,7 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
     }
 
     @Override
-    protected double interpolate(double x, int floorIndex) {
+    protected double interpolate(double x, int floorIndex)  {
         if (head.x == last.x) {
             return head.y;
         }
