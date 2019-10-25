@@ -3,6 +3,9 @@ package ru.ssau.tk.Lab2.LabOOP.functions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertThrows;
 
@@ -157,6 +160,25 @@ public class LinkedListTabulatedFunctionTest {
         LinkedListTabulatedFunction secondList = listOfFunc();
         assertEquals(firstList.extrapolateRight(12.5), 15.875);
         assertEquals(secondList.extrapolateRight(16), 3964);
+    }
+
+    @Test
+    public void testIterator() {
+        LinkedListTabulatedFunction firstArray = listOfArray();
+        Iterator<Point> iterator = firstArray.iterator();
+        int i = 0;
+        while (iterator.hasNext()) {
+            Point point = iterator.next();
+            System.out.println(point.x);
+            assertEquals(point.x, firstArray.getX(i), 0.0001);
+            assertEquals(point.y, firstArray.getY(i++), 0.0001);
+        }
+        i = 0;
+        for (Point point : firstArray) {
+            assertEquals(point.x, firstArray.getX(i), 0.0001);
+            assertEquals(point.y, firstArray.getY(i++), 0.0001);
+        }
+        assertThrows(NoSuchElementException.class, iterator::next);
     }
 }
 

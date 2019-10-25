@@ -1,6 +1,7 @@
 package ru.ssau.tk.Lab2.LabOOP.functions;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
     private Node head; // первый элемент "голова"
@@ -186,7 +187,7 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
     }
 
     @Override
-    protected double interpolate(double x, int floorIndex)  {
+    protected double interpolate(double x, int floorIndex) {
         if (head.x == last.x) {
             return head.y;
         }
@@ -197,6 +198,23 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
 
     @Override
     public Iterator<Point> iterator() {
-        throw new UnsupportedOperationException();
+        return new Iterator<Point>() {
+            private Node node = head;
+            public boolean hasNext() {
+                return (node != null);
+            }
+            public Point next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+                Point point = new Point(node.x, node.y);
+                if (node != head.prev) {
+                    node = node.next;
+                } else {
+                    node = null;
+                }
+                return point;
+            }
+        };
     }
 }
