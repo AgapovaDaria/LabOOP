@@ -6,14 +6,13 @@ public abstract class AbstractTabulatedFunction implements TabulatedFunction {
 
     AbstractTabulatedFunction() {
     }
-    /*RuntimeException exception= new IllegalArgumentException("Х меньше левой границы");*/
 
     /*AbstractTabulatedFunction(int length) {
         if (length >= 2) count = length;
         else throw exception;
     }*/
 
-    protected abstract int floorIndexOfX(double x) throws IllegalArgumentException;
+    protected abstract int floorIndexOfX(double x);
     /*{
         int index = indexOfX(x);
 

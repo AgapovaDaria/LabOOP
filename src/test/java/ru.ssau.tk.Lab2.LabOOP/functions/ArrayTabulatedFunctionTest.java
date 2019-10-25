@@ -4,6 +4,8 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import static org.testng.Assert.assertThrows;
+
 public class ArrayTabulatedFunctionTest {
 
 
@@ -19,7 +21,12 @@ public class ArrayTabulatedFunctionTest {
     private AbstractTabulatedFunction functionOne;
     private AbstractTabulatedFunction functionTwo;
 
-
+    @Test
+    public void testIllegalArgumentExceptionInArrayMathFunction() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new ArrayTabulatedFunction(source, 0, 0, 1);
+        });
+    }
     @BeforeClass
     public void startUp() {
         count = masX.length;
@@ -46,7 +53,7 @@ public class ArrayTabulatedFunctionTest {
     public void testExtrapolateLeft() {
 
         AbstractTabulatedFunction fun2 = functionTwo;
-        double xNum = fun2.getX(0) - 0.25; // ==1.0
+        double xNum = fun2.getX(1) - 0.25; // ==1.0
         int index = fun2.floorIndexOfX(xNum);
 
         double trueResult = fun2.getY(0) + ((fun2.getY(1) - (fun2.getY(0))) /
@@ -100,18 +107,36 @@ public class ArrayTabulatedFunctionTest {
     public void testGetX() {
         Assert.assertEquals(masX[count - 1], functionOne.getX(count - 1));
         Assert.assertEquals(masX[count - 1], functionTwo.getX(count - 1));
+        Assert.assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
+            functionOne.getX(-6);
+        });
+        Assert.assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
+            functionTwo.getX(30);
+        });
     }
 
     @Test
     public void testGetY() {
         Assert.assertEquals(masY[count - 1], functionOne.getY(count - 1));
         Assert.assertEquals(masY[count - 1], functionTwo.getY(count - 1));
+        Assert.assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
+            functionOne.getY(-4);
+        });
+        Assert.assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
+            functionTwo.getY(25);
+        });
     }
 
     @Test
     public void testSetY(){
         functionOne.setY(2,81);
         Assert.assertEquals(81, functionOne.getY(2), 0.0001);
+        Assert.assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
+            functionOne.setY(-12,50);
+        });
+        Assert.assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
+            functionTwo.setY(100,20);
+        });
     }
 
     @Test
@@ -120,6 +145,7 @@ public class ArrayTabulatedFunctionTest {
         Assert.assertEquals(-1, functionOne.indexOfX(masX[count - 1] + 1));
         Assert.assertEquals(1, functionOne.indexOfX(masX[1]));
         Assert.assertEquals(count - 1, functionOne.indexOfX(masX[count - 1]));
+
     }
 
     @Test

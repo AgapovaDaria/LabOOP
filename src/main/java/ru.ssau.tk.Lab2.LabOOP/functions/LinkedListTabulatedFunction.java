@@ -144,9 +144,6 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
     public int floorIndexOfX(double x) throws IllegalArgumentException {
         Node a;
         if (x < head.x) {
-            return 0;
-        }
-        if (x < head.x) {
             throw new IllegalArgumentException("Аргумент x меньше минимального");
         }
         a = head;
