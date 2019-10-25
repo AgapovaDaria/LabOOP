@@ -1,4 +1,6 @@
 package ru.ssau.tk.Lab2.LabOOP.functions;
+import ru.ssau.tk.Lab2.LabOOP.exceptions.ArrayIsNotSortedException;
+import ru.ssau.tk.Lab2.LabOOP.exceptions.DifferentLengthOfArraysException;
 
 public abstract class AbstractTabulatedFunction implements TabulatedFunction {
 
@@ -6,13 +8,13 @@ public abstract class AbstractTabulatedFunction implements TabulatedFunction {
 
     AbstractTabulatedFunction() {
     }
-
+    protected abstract int floorIndexOfX(double x);
     /*AbstractTabulatedFunction(int length) {
         if (length >= 2) count = length;
         else throw exception;
     }*/
 
-    protected abstract int floorIndexOfX(double x);
+
     /*{
         int index = indexOfX(x);
 
@@ -69,4 +71,22 @@ public abstract class AbstractTabulatedFunction implements TabulatedFunction {
         return count;
     }
 
+
+    static void checkLengthIsTheSame(double[] xValues, double[] yValues) throws DifferentLengthOfArraysException{
+
+        if (xValues.length != yValues.length) {
+            throw new DifferentLengthOfArraysException("Массивы разной длины");
+        }
+
+    }
+
+    static void checkSorted(double[] xValues ) throws ArrayIsNotSortedException {
+        for(int i = 0; i < xValues.length; i++){
+            if(xValues[i+1] <= xValues[i] ){
+                throw new ArrayIsNotSortedException("Массив не отсортирован");
+            }
+
+        }
+
+    }
 }

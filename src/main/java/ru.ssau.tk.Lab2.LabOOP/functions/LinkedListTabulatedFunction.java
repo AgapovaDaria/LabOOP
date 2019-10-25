@@ -36,6 +36,8 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
         for (int i = 0; i < xValues.length; i++) {
             this.addNode(xValues[i], yValues[i]); // используется для ссылки на текущий класс с учетом метода
         }
+        checkLengthIsTheSame(xValues, yValues);
+        checkSorted(xValues);
     }
 
     public LinkedListTabulatedFunction(MathFunction source, double xFrom, double xTo, int count) {

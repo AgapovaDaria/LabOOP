@@ -1,5 +1,9 @@
 package ru.ssau.tk.Lab2.LabOOP.functions;
 
+import ru.ssau.tk.Lab2.LabOOP.exceptions.ArrayIsNotSortedException;
+import ru.ssau.tk.Lab2.LabOOP.exceptions.DifferentLengthOfArraysException;
+import ru.ssau.tk.Lab2.LabOOP.exceptions.InterpolationException;
+
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -8,11 +12,13 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
     private double[] xValues;
     private double[] yValues;
 
-    public ArrayTabulatedFunction(double[] xValues, double[] yValues) throws IllegalArgumentException {
-
+    public ArrayTabulatedFunction(double[] xValues, double[] yValues) throws IllegalArgumentException,
+            DifferentLengthOfArraysException, ArrayIsNotSortedException {
         if (xValues.length < 2) {
             throw new IllegalArgumentException("Массив меньше данной длины");
         }
+        checkLengthIsTheSame(xValues, yValues);
+        checkSorted(xValues);
         count = xValues.length;
         this.xValues = Arrays.copyOf(xValues, xValues.length);
         this.yValues = Arrays.copyOf(yValues, yValues.length);
@@ -68,6 +74,10 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
     @Override
     //Без проверок на корректность данных. Запускается в методе apply()
     protected double interpolate(double x, int floorIndex) {
+        int i = indexOfX(x);
+        if (floorIndex >= i && i >= (floorIndex + 1)) {
+            throw new InterpolationException("х находится вне интервала интерполирования");
+        }
         return interpolate(x, getX(floorIndex), getX(floorIndex + 1), getY(floorIndex), getY(floorIndex + 1));
     }
 
@@ -134,4 +144,6 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
     public Iterator<Point> iterator() {
         throw new UnsupportedOperationException();
     }
+
+
 }

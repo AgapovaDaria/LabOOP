@@ -16,6 +16,7 @@ public interface TabulatedFunction extends MathFunction, Iterable<Point> {
     // метод, задающий значение у по номеру индекса
     void setY(int index, double value);
 
+
     //метод,возвращающий индекс аргумента х
     int indexOfX(double x);
 
