@@ -2,6 +2,7 @@ package ru.ssau.tk.Lab2.LabOOP.functions;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.Iterator;
 
 public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
     private double[] xValues;
@@ -129,7 +130,8 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
         return count > 0 ? xValues[count - 1] : 0;
     }
 
-   /* private boolean isCorrectIndex(int index) {
-        return index >= 0 && index < count;
-    }*/
+    @Override
+    public Iterator<Point> iterator() {
+        throw new UnsupportedOperationException();
+    }
 }

@@ -1,5 +1,7 @@
 package ru.ssau.tk.Lab2.LabOOP.functions;
 
+import java.util.Iterator;
+
 public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
     private Node head; // первый элемент "голова"
     private Node last; //последний узел списка "хвост"
@@ -191,5 +193,10 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
         Node left = getNode(floorIndex);
         Node right = left.next;
         return interpolate(x, left.x, right.x, left.y, right.y);
+    }
+
+    @Override
+    public Iterator<Point> iterator() {
+        throw new UnsupportedOperationException();
     }
 }
