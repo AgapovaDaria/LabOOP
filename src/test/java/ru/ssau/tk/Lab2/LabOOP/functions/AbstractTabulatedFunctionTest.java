@@ -86,4 +86,6 @@ public class AbstractTabulatedFunctionTest {
     public void testCheckSorted() {
         Assert.assertThrows(ArrayIsNotSortedException.class, () -> function.checkSorted(xValues));
     }
+
+
 }

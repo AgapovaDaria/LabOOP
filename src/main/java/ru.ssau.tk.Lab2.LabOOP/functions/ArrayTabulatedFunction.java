@@ -7,6 +7,7 @@ import ru.ssau.tk.Lab2.LabOOP.exceptions.InterpolationException;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
     private double[] xValues;
@@ -142,8 +143,24 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
 
     @Override
     public Iterator<Point> iterator() {
-        throw new UnsupportedOperationException();
+        return new Iterator<Point>() {
+            private int i=0;
+            double[] xValues = new double[i];
+            double[] yValues = new double[i];
+
+            public boolean hasNext() {
+                return (i < count);
+            }
+
+            public Point next() {
+                if (i == count) {
+                    throw new NoSuchElementException();
+                }
+
+              return new Point(xValues[i], yValues[i++]);
+
+            }
+
+        };
     }
-
-
 }

@@ -4,6 +4,10 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertThrows;
 
 public class ArrayTabulatedFunctionTest {
@@ -166,5 +170,23 @@ public class ArrayTabulatedFunctionTest {
     public void testRightBound() {
         Assert.assertEquals(masX[count - 1], functionOne.rightBound());
         Assert.assertEquals(masX[count - 1], functionTwo.rightBound());
+    }
+
+    @Test
+    public void testIterator() {
+        AbstractTabulatedFunction firstArray = new ArrayTabulatedFunction(masX,masY);
+        Iterator<Point> iterator = firstArray.iterator();
+        int i = 0;
+        while (iterator.hasNext()) {
+            Point point = iterator.next();
+            assertEquals(point.x, firstArray.getX(i), 0.0001);
+            assertEquals(point.y, firstArray.getY(i++), 0.0001);
+        }
+        i = 0;
+        for (Point point : firstArray) {
+            assertEquals(point.x, firstArray.getX(i), 0.0001);
+            assertEquals(point.y, firstArray.getY(i++), 0.0001);
+        }
+        assertThrows(NoSuchElementException.class, iterator::next);
     }
 }
