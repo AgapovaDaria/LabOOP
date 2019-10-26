@@ -148,16 +148,12 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
             public boolean hasNext() {
                 return (i != count);
             }
-
             public Point next() {
                 if (i == count) {
                     throw new NoSuchElementException();
                 }
-
               return new Point(xValues[i], yValues[i++]);
-
             }
-
         };
     }
 }
