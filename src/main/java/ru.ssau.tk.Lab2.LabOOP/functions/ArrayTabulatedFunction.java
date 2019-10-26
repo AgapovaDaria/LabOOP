@@ -145,11 +145,8 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
     public Iterator<Point> iterator() {
         return new Iterator<Point>() {
             private int i=0;
-            double[] xValues = new double[i];
-            double[] yValues = new double[i];
-
             public boolean hasNext() {
-                return (i < count);
+                return (i != count);
             }
 
             public Point next() {
