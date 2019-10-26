@@ -1,6 +1,6 @@
 package ru.ssau.tk.Lab2.LabOOP.functions;
 
-interface MathFunction {
+public interface MathFunction {
     double apply(double x);
 
     default CompositeFunction andThen(MathFunction afterFunction) {

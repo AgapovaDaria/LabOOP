@@ -9,36 +9,6 @@ public abstract class AbstractTabulatedFunction implements TabulatedFunction {
     AbstractTabulatedFunction() {
     }
     protected abstract int floorIndexOfX(double x);
-    /*AbstractTabulatedFunction(int length) {
-        if (length >= 2) count = length;
-        else throw exception;
-    }*/
-
-
-    /*{
-        int index = indexOfX(x);
-
-        if (index != -1) {
-            return index;
-        }
-
-        if (rightBound() < x) {
-            return count;
-        }
-
-        for (int i = 0; i < getCount(); i++) {
-            double value = getX(i);
-            if (value < x) {
-                index = i;
-            }
-        }
-        if (index == -1) {
-            return 0;
-        }
-
-        return index;
-    }*/
-
 
     abstract protected double extrapolateLeft(double x);
 
@@ -81,7 +51,7 @@ public abstract class AbstractTabulatedFunction implements TabulatedFunction {
     }
 
     static void checkSorted(double[] xValues ) throws ArrayIsNotSortedException {
-        for(int i = 0; i < xValues.length; i++){
+        for(int i = 0; i < xValues.length-1; i++){
             if(xValues[i+1] <= xValues[i] ){
                 throw new ArrayIsNotSortedException("Массив не отсортирован");
             }
