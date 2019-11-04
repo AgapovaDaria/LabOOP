@@ -16,4 +16,29 @@ public class TabulatedFunctionOperationServiceTest {
         AbstractTabulatedFunction function = new ArrayTabulatedFunction(xValues, yValues);
 
     }
+
+    @Test
+    public void testSetFactory() {
+    }
+
+    @Test
+    public void testGetFactory() {
+    }
+
+
+    @Test
+    public void testSum() {
+    }
+
+    @Test
+    public void testSubtract() {
+    }
+
+    @Test
+    public void testMultiplication() {
+    }
+
+    @Test
+    public void testDivision() {
+    }
 }
