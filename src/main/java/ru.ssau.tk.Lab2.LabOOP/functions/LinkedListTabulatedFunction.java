@@ -100,7 +100,7 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
     }
 
     public double getX(int index) throws IllegalArgumentException {
-        if (index < 0 || index >= count) {
+        if (index < 0 || index >= count ) {
             throw new IllegalArgumentException("Индекс не соотвествует");
         }
         return getNode(index).x;
@@ -202,6 +202,9 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
     public Iterator<Point> iterator() {
         return new Iterator<Point>() {
             private Node node = head;
+            public void remove() {
+                throw new UnsupportedOperationException("remove");
+            }
             public boolean hasNext() {
                 return (node != null);
             }

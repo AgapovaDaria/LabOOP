@@ -3,6 +3,7 @@ package operations;
 import org.testng.annotations.Test;
 import ru.ssau.tk.Lab2.LabOOP.functions.AbstractTabulatedFunction;
 import ru.ssau.tk.Lab2.LabOOP.functions.ArrayTabulatedFunction;
+import ru.ssau.tk.Lab2.LabOOP.functions.Point;
 import ru.ssau.tk.Lab2.LabOOP.functions.TabulatedFunction;
 
 import static org.testng.Assert.*;
@@ -11,10 +12,15 @@ public class TabulatedFunctionOperationServiceTest {
 
     @Test
     public void testAsPoints() {
-        final double[] xValues = new double[]{1., 3., 2., 8., 12.};
-        final double[] yValues = new double[]{8., 24, 6., 5., 17., 16.,};
+        final double[] xValues = new double[]{1., 2., 3., 8., 12.};
+        final double[] yValues = new double[]{5., 6., 8., 17., 24.};
         AbstractTabulatedFunction function = new ArrayTabulatedFunction(xValues, yValues);
-
+        Point[] points = TabulatedFunctionOperationService.asPoints(function);
+        int i = 0;
+        for (Point point : points) {
+            assertEquals(point.x, function.getX(i));
+            assertEquals(point.y, function.getY(i++));
+        }
     }
 
     @Test
