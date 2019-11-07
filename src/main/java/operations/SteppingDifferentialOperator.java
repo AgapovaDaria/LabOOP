@@ -6,10 +6,10 @@ public abstract class SteppingDifferentialOperator implements DifferentialOperat
 
     protected double step;
 
-    public SteppingDifferentialOperator(double step) {
+    SteppingDifferentialOperator(double step) {
 
         if (step <= 0 || Double.isNaN(step) || step == Double.POSITIVE_INFINITY) {
-            throw new IllegalArgumentException(" ");
+            throw new IllegalArgumentException("шаг отрицательный, либо равен нулю, положительной бесконечности или NaN");
         }
         this.step = step;
     }

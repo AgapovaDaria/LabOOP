@@ -145,6 +145,9 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
     public Iterator<Point> iterator() {
         return new Iterator<Point>() {
             private int i=0;
+            public void remove() {
+                throw new UnsupportedOperationException("remove");
+            }
             public boolean hasNext() {
                 return (i != count);
             }
