@@ -1,5 +1,6 @@
 package ru.ssau.tk.Lab2.LabOOP.io;
 
+import ru.ssau.tk.Lab2.LabOOP.functions.ArrayTabulatedFunction;
 import ru.ssau.tk.Lab2.LabOOP.functions.factory.ArrayTabulatedFunctionFactory;
 import ru.ssau.tk.Lab2.LabOOP.functions.factory.LinkedListTabulatedFunctionFactory;
 

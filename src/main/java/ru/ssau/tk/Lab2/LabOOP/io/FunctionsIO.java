@@ -3,8 +3,6 @@ package ru.ssau.tk.Lab2.LabOOP.io;
 import ru.ssau.tk.Lab2.LabOOP.functions.Point;
 import ru.ssau.tk.Lab2.LabOOP.functions.TabulatedFunction;
 import ru.ssau.tk.Lab2.LabOOP.functions.factory.TabulatedFunctionFactory;
-
-import javax.swing.text.NumberFormatter;
 import java.io.*;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -23,7 +21,6 @@ public final class FunctionsIO {
             printWriter.printf("%f %f\\n", point.x, point.y);
         }
         writer.flush();
-
     }
 
     public static void writeTabulatedFunction(BufferedOutputStream outputStream, TabulatedFunction function) throws IOException {
@@ -44,7 +41,6 @@ public final class FunctionsIO {
         double[] yValues = new double[count];
         NumberFormat numberFormatter = NumberFormat.getInstance(Locale.forLanguageTag("ru"));
         String string;
-
         for (int i = 0; i < count; i++) {
             string = reader.readLine();
             try {
