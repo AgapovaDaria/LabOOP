@@ -21,8 +21,8 @@ public class TabulatedFunctionFileWriter {
 
             BufferedWriter bufferedWriter1 = new BufferedWriter(fileWriter1);
             BufferedWriter bufferedWriter2 = new BufferedWriter(fileWriter2);
-            FunctionsIO.writeTabulatedFunction(fileWriter1, arrayTabulatedFunction);
-            FunctionsIO.writeTabulatedFunction(fileWriter2, linkedListTabulatedFunction);
+            FunctionsIO.writeTabulatedFunction(bufferedWriter1, arrayTabulatedFunction);
+            FunctionsIO.writeTabulatedFunction(bufferedWriter2, linkedListTabulatedFunction);
 
         }
         catch (IOException e) {
