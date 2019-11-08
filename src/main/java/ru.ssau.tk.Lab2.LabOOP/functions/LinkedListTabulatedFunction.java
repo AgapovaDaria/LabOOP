@@ -1,9 +1,11 @@
 package ru.ssau.tk.Lab2.LabOOP.functions;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
+public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements Serializable {
+    private static final long serialVersionUID = 3418284856807134116L;
     private Node head; // первый элемент "голова"
     private Node last; //последний узел списка "хвост"
     private int count = 0;
