@@ -8,6 +8,7 @@ import ru.ssau.tk.Lab2.LabOOP.functions.TabulatedFunction;
 import ru.ssau.tk.Lab2.LabOOP.functions.factory.ArrayTabulatedFunctionFactory;
 import ru.ssau.tk.Lab2.LabOOP.functions.factory.TabulatedFunctionFactory;
 
+
 public class TabulatedFunctionOperationService {
 
     TabulatedFunctionFactory factory;

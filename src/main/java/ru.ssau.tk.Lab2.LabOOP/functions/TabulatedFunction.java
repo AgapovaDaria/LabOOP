@@ -1,6 +1,6 @@
 package ru.ssau.tk.Lab2.LabOOP.functions;
 
-public interface TabulatedFunction extends MathFunction, Iterable<Point> {
+public interface TabulatedFunction extends MathFunction, Iterable<Point>  {
     int getCount(); // метод получения количества табулированных значений
 
     /**

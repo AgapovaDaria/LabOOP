@@ -5,7 +5,10 @@ import ru.ssau.tk.Lab2.LabOOP.functions.TabulatedFunction;
 import ru.ssau.tk.Lab2.LabOOP.functions.factory.ArrayTabulatedFunctionFactory;
 import ru.ssau.tk.Lab2.LabOOP.functions.factory.TabulatedFunctionFactory;
 
+import java.io.Serializable;
+
 public class TabulatedDifferentialOperator implements DifferentialOperator<TabulatedFunction> {
+
     TabulatedFunctionFactory factory;
 
     public TabulatedDifferentialOperator(TabulatedFunctionFactory factory) {

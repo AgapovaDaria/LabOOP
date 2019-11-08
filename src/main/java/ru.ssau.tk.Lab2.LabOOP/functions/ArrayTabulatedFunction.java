@@ -3,9 +3,7 @@ package ru.ssau.tk.Lab2.LabOOP.functions;
 import ru.ssau.tk.Lab2.LabOOP.exceptions.ArrayIsNotSortedException;
 import ru.ssau.tk.Lab2.LabOOP.exceptions.DifferentLengthOfArraysException;
 import ru.ssau.tk.Lab2.LabOOP.exceptions.InterpolationException;
-
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
