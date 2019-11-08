@@ -34,19 +34,64 @@ public class TabulatedFunctionOperationServiceTest {
 
     @Test
     public void testSetFactory() {
+        TabulatedFunctionOperationService tabulatedOperationService = new TabulatedFunctionOperationService();
+        tabulatedOperationService.setFactory(new ArrayTabulatedFunctionFactory());
+        assertTrue(tabulatedOperationService.getFactory() instanceof ArrayTabulatedFunctionFactory);
+        tabulatedOperationService.setFactory(new LinkedListTabulatedFunctionFactory());
+        assertTrue(tabulatedOperationService.getFactory() instanceof LinkedListTabulatedFunctionFactory);
     }
 
     @Test
     public void testGetFactory() {
+        TabulatedFunctionOperationService tabulatedOperationService = new TabulatedFunctionOperationService(new ArrayTabulatedFunctionFactory());
+        assertTrue(tabulatedOperationService.getFactory() instanceof ArrayTabulatedFunctionFactory);
+        tabulatedOperationService = new TabulatedFunctionOperationService(new LinkedListTabulatedFunctionFactory());
+        assertTrue(tabulatedOperationService.getFactory() instanceof LinkedListTabulatedFunctionFactory);
     }
 
 
     @Test
     public void testSum() {
+        TabulatedFunctionFactory arrayFactory = new ArrayTabulatedFunctionFactory();
+        TabulatedFunctionFactory linkedListFactory = new LinkedListTabulatedFunctionFactory();
+        TabulatedFunctionOperationService tabulatedArray = new TabulatedFunctionOperationService(arrayFactory);
+        TabulatedFunctionOperationService tabulatedList = new TabulatedFunctionOperationService(linkedListFactory);
+        TabulatedFunction u = arrayFactory.create(firstXValues,firstYValues);
+        TabulatedFunction v = linkedListFactory.create(firstXValues,secondYValues);
+        TabulatedFunction sumArray = tabulatedArray.sum(u,v);
+        TabulatedFunction sumList = tabulatedList.sum(u,v);
+        int i = 0;
+        for(Point point : sumArray){
+            assertEquals(point.x, firstXValues[i]);
+            assertEquals(point.y, firstYValues[i] + secondYValues[i++]);
+        }
+        i= 0;
+        for(Point point : sumList){
+            assertEquals(point.x, firstXValues[i]);
+            assertEquals(point.y, firstYValues[i] + secondYValues[i++]);
+        }
     }
 
     @Test
     public void testSubtract() {
+        TabulatedFunctionFactory arrayFactory = new ArrayTabulatedFunctionFactory();
+        TabulatedFunctionFactory linkedListFactory = new LinkedListTabulatedFunctionFactory();
+        TabulatedFunctionOperationService tabulatedArray = new TabulatedFunctionOperationService(arrayFactory);
+        TabulatedFunctionOperationService tabulatedList = new TabulatedFunctionOperationService(linkedListFactory);
+        TabulatedFunction u = arrayFactory.create(firstXValues,firstYValues);
+        TabulatedFunction v = linkedListFactory.create(firstXValues,secondYValues);
+        TabulatedFunction subtractArray = tabulatedArray.subtract(u,v);
+        TabulatedFunction subtractList = tabulatedList.subtract(u,v);
+        int i = 0;
+        for(Point point : subtractArray){
+            assertEquals(point.x, firstXValues[i]);
+            assertEquals(point.y, firstYValues[i] - secondYValues[i++]);
+        }
+        i= 0;
+        for(Point point : subtractList){
+            assertEquals(point.x, firstXValues[i]);
+            assertEquals(point.y, firstYValues[i] - secondYValues[i++]);
+        }
     }
 
     @Test
