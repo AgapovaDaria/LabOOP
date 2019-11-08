@@ -7,7 +7,7 @@ import ru.ssau.tk.Lab2.LabOOP.functions.TabulatedFunction;
 
 public class ArrayTabulatedFunctionFactoryTest {
     private final double[] xValues = new double[]{1., 3., 4., 8., 12.};
-    private final double[] yValues = new double[]{8., 6., 5., 17., 16.,};
+    private final double[] yValues = new double[]{8., 6., 5., 17., 16.};
 
     @Test
     public void testCreate() {
