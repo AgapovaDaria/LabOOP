@@ -8,11 +8,8 @@ import java.io.IOException;
 public class ArrayTabulatedFunctionSerialization {
     public static void main(String[] args) {
         File file = new File("output/serialized array functions.bin");
-
         try(FileOutputStream fileOutputStream = new FileOutputStream(file)) {
-
             BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(fileOutputStream);
-
         }
         catch (IOException e){
             e.printStackTrace();
