@@ -4,12 +4,14 @@ import ru.ssau.tk.Lab2.LabOOP.exceptions.ArrayIsNotSortedException;
 import ru.ssau.tk.Lab2.LabOOP.exceptions.DifferentLengthOfArraysException;
 import ru.ssau.tk.Lab2.LabOOP.exceptions.InterpolationException;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
+public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements Serializable {
+    private static final long serialVersionUID = -8424022163055177210L;
     private double[] xValues;
     private double[] yValues;
 
@@ -159,4 +161,5 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
             }
         };
     }
+
 }
