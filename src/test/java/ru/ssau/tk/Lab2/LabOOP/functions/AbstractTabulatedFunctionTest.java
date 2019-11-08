@@ -13,8 +13,10 @@ public class AbstractTabulatedFunctionTest {
 
     private final double[] xValues = new double[]{1., 3., 2., 8., 12.};
     private final double[] yValues = new double[]{8., 24, 6., 5., 17., 16.,};
+    double[] secondXValues = new double[]{5., 8., 9.};
+    double[] secondYValues = new double[]{20., 1., 5.};
 
-    private  AbstractTabulatedFunction function = new AbstractTabulatedFunction() {
+    private AbstractTabulatedFunction function = new AbstractTabulatedFunction() {
         @Override
         protected int floorIndexOfX(double x) {
             return 0;
@@ -79,7 +81,7 @@ public class AbstractTabulatedFunctionTest {
     @Test
     public void testCheckLengthIsTheSame() {
         Assert.assertThrows(DifferentLengthOfArraysException.class,
-                () -> function.checkLengthIsTheSame(xValues,yValues));
+                () -> function.checkLengthIsTheSame(xValues, yValues));
     }
 
     @Test
@@ -87,5 +89,11 @@ public class AbstractTabulatedFunctionTest {
         Assert.assertThrows(ArrayIsNotSortedException.class, () -> function.checkSorted(xValues));
     }
 
-
+    @Test
+    public void testToString() {
+        ArrayTabulatedFunction arrayFun = new ArrayTabulatedFunction(secondXValues, secondYValues);
+        assertEquals(arrayFun.toString(), "ArrayTabulatedFunction size = 3\n[5.0; 20.0]\n[8.0; 1.0]\n[9.0; 5.0]");
+        LinkedListTabulatedFunction linkedListFun = new LinkedListTabulatedFunction(secondXValues, secondYValues);
+        assertEquals(linkedListFun.toString(), "LinkedListTabulatedFunction size = 3\n[5.0; 20.0]\n[8.0; 1.0]\n[9.0; 5.0]");
+    }
 }

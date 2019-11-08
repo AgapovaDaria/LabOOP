@@ -1,4 +1,5 @@
 package ru.ssau.tk.Lab2.LabOOP.functions;
+
 import ru.ssau.tk.Lab2.LabOOP.exceptions.ArrayIsNotSortedException;
 import ru.ssau.tk.Lab2.LabOOP.exceptions.DifferentLengthOfArraysException;
 
@@ -8,6 +9,7 @@ public abstract class AbstractTabulatedFunction implements TabulatedFunction {
 
     AbstractTabulatedFunction() {
     }
+
     protected abstract int floorIndexOfX(double x);
 
     abstract protected double extrapolateLeft(double x);
@@ -42,7 +44,7 @@ public abstract class AbstractTabulatedFunction implements TabulatedFunction {
     }
 
 
-    static void checkLengthIsTheSame(double[] xValues, double[] yValues) throws DifferentLengthOfArraysException{
+    static void checkLengthIsTheSame(double[] xValues, double[] yValues) throws DifferentLengthOfArraysException {
 
         if (xValues.length != yValues.length) {
             throw new DifferentLengthOfArraysException("Массивы разной длины");
@@ -50,13 +52,22 @@ public abstract class AbstractTabulatedFunction implements TabulatedFunction {
 
     }
 
-    static void checkSorted(double[] xValues ) throws ArrayIsNotSortedException {
-        for(int i = 0; i < xValues.length-1; i++){
-            if(xValues[i+1] <= xValues[i] ){
+    static void checkSorted(double[] xValues) throws ArrayIsNotSortedException {
+        for (int i = 0; i < xValues.length - 1; i++) {
+            if (xValues[i + 1] <= xValues[i]) {
                 throw new ArrayIsNotSortedException("Массив не отсортирован");
             }
 
         }
+    }
 
+    @Override
+    public String toString() {
+        StringBuilder newLineItems = new StringBuilder();
+        newLineItems.append(getClass().getSimpleName()).append(" size = ").append(this.getCount());
+        for (Point newPoint : this) {
+            newLineItems.append("\n").append("[").append(newPoint.x).append(";").append(" ").append(newPoint.y).append("]");
+        }
+        return newLineItems.toString();
     }
 }
