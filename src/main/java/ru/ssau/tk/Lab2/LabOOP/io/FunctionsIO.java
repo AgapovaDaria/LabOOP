@@ -37,7 +37,7 @@ public final class FunctionsIO {
     }
 
 
-    static TabulatedFunction readTabulatedFunction(BufferedReader reader, TabulatedFunctionFactory factory) throws IOException {
+    public static TabulatedFunction readTabulatedFunction(BufferedReader reader, TabulatedFunctionFactory factory) throws IOException {
         int count;
         count = Integer.parseInt(reader.readLine());
         double[] xValues = new double[count];
@@ -55,5 +55,11 @@ public final class FunctionsIO {
             }
         }
         return factory.create(xValues, yValues);
+    }
+    public static void serialize(BufferedOutputStream stream, TabulatedFunction function) throws IOException {
+
+        ObjectOutputStream stream1 = new ObjectOutputStream(stream);
+        stream1.writeObject(function);
+        stream1.flush();
     }
 }
