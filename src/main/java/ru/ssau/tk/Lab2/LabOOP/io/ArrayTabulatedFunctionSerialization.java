@@ -12,7 +12,7 @@ import static ru.ssau.tk.Lab2.LabOOP.io.FunctionsIO.serialize;
 public class ArrayTabulatedFunctionSerialization{
     public static void main(String[] args){
         File file = new File("output/serialized_array_functions.bin");
-        ArrayTabulatedFunction function = new ArrayTabulatedFunction(new SqrFunction(), 3, 10, 50);
+        ArrayTabulatedFunction function = new ArrayTabulatedFunction(new SqrFunction(), 3, 10, 8);
         TabulatedDifferentialOperator differential = new TabulatedDifferentialOperator(new ArrayTabulatedFunctionFactory());
         TabulatedFunction firstDifferential = differential.derive(function);
         TabulatedFunction secondDifferential = differential.derive(firstDifferential);
