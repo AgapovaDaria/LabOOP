@@ -165,11 +165,12 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
         return getCount();
     }
 
-    private static class Node {
-        Node next; // ссылка на следующий узел в списке
-        Node prev; // ссылка предыдущий узел в списке
-        double x;
-        double y;
+    private static class Node implements Serializable {
+        private static final long serialVersionUID = -5387911250300571287L;
+        public Node next; // ссылка на следующий узел в списке
+        public Node prev; // ссылка предыдущий узел в списке
+        public double x;
+        public double y;
     }
 
     @Override
