@@ -74,8 +74,7 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
     @Override
     //Без проверок на корректность данных. Запускается в методе apply()
     protected double interpolate(double x, int floorIndex) {
-        int i = indexOfX(x);
-        if (floorIndex >= i && i >= (floorIndex + 1)) {
+        if (x < xValues[floorIndex]  || x > xValues[floorIndex + 1]) {
             throw new InterpolationException("х находится вне интервала интерполирования");
         }
         return interpolate(x, getX(floorIndex), getX(floorIndex + 1), getY(floorIndex), getY(floorIndex + 1));

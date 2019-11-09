@@ -3,6 +3,7 @@ package ru.ssau.tk.Lab2.LabOOP.functions;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import ru.ssau.tk.Lab2.LabOOP.exceptions.InterpolationException;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -85,12 +86,12 @@ public class ArrayTabulatedFunctionTest {
         AbstractTabulatedFunction fun = functionTwo;
         double xNum = (fun.getX(2) + functionOne.getX(1)) / 2; // ==1.875
         int index = fun.floorIndexOfX(xNum);
-
         double trueResult = fun.getY(1) + ((fun.getY(2) - (fun.getY(1))) /
                 ((fun.getX(2) - (fun.getX(1))))) * (xNum - (fun.getX(1)));
         double result = fun.interpolate(xNum, index);
 
         Assert.assertEquals(trueResult, result, 0.00001);
+        assertThrows(InterpolationException.class,() -> functionOne.interpolate(10, 1));
     }
 
     //Зависимый тест
@@ -188,5 +189,10 @@ public class ArrayTabulatedFunctionTest {
             assertEquals(point.y, firstArray.getY(i++), 0.0001);
         }
         assertThrows(NoSuchElementException.class, iterator::next);
+    }
+
+    @Test
+    public void floorIndexOfX(){
+        assertThrows(IllegalArgumentException.class,() -> functionOne.floorIndexOfX(0));
     }
 }
