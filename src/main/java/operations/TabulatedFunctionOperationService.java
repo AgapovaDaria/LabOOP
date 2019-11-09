@@ -48,7 +48,7 @@ public class TabulatedFunctionOperationService {
         double[] yValues = new double[a.getCount()];
         for (int i = 0; i < a.getCount(); i++) {
             if (arrPoints1[i].x != arrPoints2[i].x) {
-                throw new InconsistentFunctionsException("");
+                throw new InconsistentFunctionsException();
             }
             xValues[i] = arrPoints1[i].x;
             yValues[i] = operation.apply(arrPoints1[i].y, arrPoints2[i].y);

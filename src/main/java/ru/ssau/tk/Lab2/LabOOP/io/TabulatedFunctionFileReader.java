@@ -18,23 +18,12 @@ public class TabulatedFunctionFileReader {
         catch (IOException e) {
             e.printStackTrace();
         }
-        BufferedReader bufferedReader = null;
 
         try(FileReader fileReader = new FileReader(file)) {
-
-            bufferedReader = new BufferedReader(fileReader);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
             System.out.println(FunctionsIO.readTabulatedFunction(bufferedReader, new LinkedListTabulatedFunctionFactory()).toString());
-
         }
         catch (IOException e) {
-            try{
-                assert bufferedReader != null;
-                bufferedReader.close();
-            }
-            catch (IOException et){
-                et.printStackTrace();
-            }
-
             e.printStackTrace();
         }
     }
