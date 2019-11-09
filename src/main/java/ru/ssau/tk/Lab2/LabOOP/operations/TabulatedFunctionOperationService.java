@@ -1,4 +1,4 @@
-package operations;
+package ru.ssau.tk.Lab2.LabOOP.operations;
 
 import ru.ssau.tk.Lab2.LabOOP.exceptions.InconsistentFunctionsException;
 import ru.ssau.tk.Lab2.LabOOP.functions.AbstractTabulatedFunction;

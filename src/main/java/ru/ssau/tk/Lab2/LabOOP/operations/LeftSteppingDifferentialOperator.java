@@ -1,11 +1,11 @@
-package operations;
+package ru.ssau.tk.Lab2.LabOOP.operations;
 
 import ru.ssau.tk.Lab2.LabOOP.functions.MathFunction;
-import ru.ssau.tk.Lab2.LabOOP.functions.TabulatedFunction;
+import ru.ssau.tk.Lab2.LabOOP.operations.SteppingDifferentialOperator;
 
 public class LeftSteppingDifferentialOperator extends SteppingDifferentialOperator {
 
-    LeftSteppingDifferentialOperator(double step) {
+    public LeftSteppingDifferentialOperator(double step) {
         super(step);
     }
 

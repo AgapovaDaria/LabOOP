@@ -163,7 +163,6 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
             } else {
                 return i - 1;
             }
-
         }
         return getCount();
     }

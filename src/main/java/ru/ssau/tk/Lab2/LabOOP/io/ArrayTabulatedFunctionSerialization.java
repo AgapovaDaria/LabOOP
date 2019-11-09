@@ -1,10 +1,11 @@
 package ru.ssau.tk.Lab2.LabOOP.io;
 
-import operations.TabulatedDifferentialOperator;
 import ru.ssau.tk.Lab2.LabOOP.functions.ArrayTabulatedFunction;
 import ru.ssau.tk.Lab2.LabOOP.functions.SqrFunction;
 import ru.ssau.tk.Lab2.LabOOP.functions.TabulatedFunction;
 import ru.ssau.tk.Lab2.LabOOP.functions.factory.ArrayTabulatedFunctionFactory;
+import ru.ssau.tk.Lab2.LabOOP.operations.TabulatedDifferentialOperator;
+
 import java.io.*;
 import static ru.ssau.tk.Lab2.LabOOP.io.FunctionsIO.deserialize;
 import static ru.ssau.tk.Lab2.LabOOP.io.FunctionsIO.serialize;

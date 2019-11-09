@@ -1,10 +1,11 @@
-package operations;
+package ru.ssau.tk.Lab2.LabOOP.operations;
 
 import ru.ssau.tk.Lab2.LabOOP.functions.MathFunction;
+import ru.ssau.tk.Lab2.LabOOP.operations.SteppingDifferentialOperator;
 
 public class MiddleSteppingDifferentialOperator extends SteppingDifferentialOperator {
 
-    MiddleSteppingDifferentialOperator(double step) {
+    public MiddleSteppingDifferentialOperator(double step) {
         super(step);
     }
 

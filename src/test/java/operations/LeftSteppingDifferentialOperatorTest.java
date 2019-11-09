@@ -1,12 +1,12 @@
 package operations;
 
-import org.testng.Assert;
 import org.testng.annotations.Test;
-import ru.ssau.tk.Lab2.LabOOP.functions.ArrayTabulatedFunction;
 import ru.ssau.tk.Lab2.LabOOP.functions.MathFunction;
 import ru.ssau.tk.Lab2.LabOOP.functions.SqrFunction;
+import ru.ssau.tk.Lab2.LabOOP.operations.LeftSteppingDifferentialOperator;
+import ru.ssau.tk.Lab2.LabOOP.operations.SteppingDifferentialOperator;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
 
 public class LeftSteppingDifferentialOperatorTest {
 

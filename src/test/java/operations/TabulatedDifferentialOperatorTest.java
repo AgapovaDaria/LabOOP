@@ -10,6 +10,7 @@ import ru.ssau.tk.Lab2.LabOOP.functions.TabulatedFunction;
 import ru.ssau.tk.Lab2.LabOOP.functions.factory.ArrayTabulatedFunctionFactory;
 import ru.ssau.tk.Lab2.LabOOP.functions.factory.LinkedListTabulatedFunctionFactory;
 import ru.ssau.tk.Lab2.LabOOP.functions.factory.TabulatedFunctionFactory;
+import ru.ssau.tk.Lab2.LabOOP.operations.TabulatedDifferentialOperator;
 
 public class TabulatedDifferentialOperatorTest {
     TabulatedFunctionFactory arrayFun = new ArrayTabulatedFunctionFactory();

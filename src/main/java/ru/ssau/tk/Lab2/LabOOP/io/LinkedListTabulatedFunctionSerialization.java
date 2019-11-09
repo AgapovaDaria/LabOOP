@@ -1,11 +1,10 @@
 package ru.ssau.tk.Lab2.LabOOP.io;
 
-
-import operations.TabulatedDifferentialOperator;
 import ru.ssau.tk.Lab2.LabOOP.functions.LinkedListTabulatedFunction;
 import ru.ssau.tk.Lab2.LabOOP.functions.TabulatedFunction;
 import ru.ssau.tk.Lab2.LabOOP.functions.ThirdFunction;
 import ru.ssau.tk.Lab2.LabOOP.functions.factory.LinkedListTabulatedFunctionFactory;
+import ru.ssau.tk.Lab2.LabOOP.operations.TabulatedDifferentialOperator;
 
 import java.io.*;
 import static ru.ssau.tk.Lab2.LabOOP.io.FunctionsIO.deserialize;
