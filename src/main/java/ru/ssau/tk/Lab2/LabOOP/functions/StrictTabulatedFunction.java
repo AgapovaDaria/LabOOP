@@ -1,6 +1,8 @@
 package ru.ssau.tk.Lab2.LabOOP.functions;
 
-/*public class StrictTabulatedFunction implements TabulatedFunction {
+import java.util.Iterator;
+
+public class StrictTabulatedFunction implements TabulatedFunction {
 
     private TabulatedFunction functionTab;
 
@@ -30,8 +32,36 @@ package ru.ssau.tk.Lab2.LabOOP.functions;
 
     @Override
     public int indexOfX(double x) {
-        return functionTab.indexOfX;
+        return functionTab.indexOfX(x);
+    }
+
+    @Override
+    public int indexOfY(double y) {
+        return functionTab.indexOfY(y);
+    }
+
+    @Override
+    public double leftBound() {
+        return functionTab.leftBound();
+    }
+
+    @Override
+    public double rightBound() {
+        return functionTab.rightBound();
     }
 
 
-}*/
+    @Override
+    public Iterator<Point> iterator() {
+        return functionTab.iterator();
+    }
+
+    @Override
+    public double apply(double x) {
+        if (functionTab.indexOfX(x) == -1) {
+            throw new UnsupportedOperationException();
+        } else {
+            return functionTab.apply(x);
+        }
+    }
+}
