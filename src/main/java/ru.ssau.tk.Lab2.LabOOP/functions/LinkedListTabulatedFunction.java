@@ -35,11 +35,11 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
         if (xValues.length < 2) {
             throw new IllegalArgumentException("Длина массива меньше минимальной длины");
         }
+        checkLengthIsTheSame(xValues, yValues);
+        checkSorted(xValues);
         for (int i = 0; i < xValues.length; i++) {
             this.addNode(xValues[i], yValues[i]); // используется для ссылки на текущий класс с учетом метода
         }
-        checkLengthIsTheSame(xValues, yValues);
-        checkSorted(xValues);
     }
 
     public LinkedListTabulatedFunction(MathFunction source, double xFrom, double xTo, int count) {
@@ -79,6 +79,9 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
 
     private Node getNode(int index) {
         Node a;
+        if (index < 0) {
+            throw new ArrayIndexOutOfBoundsException();
+        }
         if (index > (count / 2)) {
             a = last;
             for (int i = count - 1; i > 0; i--) {
@@ -98,8 +101,8 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
                 }
             }
         }
-        return null;
-    }
+        throw new IllegalArgumentException();
+}
 
     public double getX(int index) throws IllegalArgumentException {
         if (index < 0 || index >= count ) {

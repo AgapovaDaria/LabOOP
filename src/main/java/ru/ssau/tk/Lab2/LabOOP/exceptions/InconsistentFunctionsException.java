@@ -1,6 +1,10 @@
 package ru.ssau.tk.Lab2.LabOOP.exceptions;
 
-public class InconsistentFunctionsException extends RuntimeException {
+import java.io.Serializable;
+
+public class InconsistentFunctionsException extends RuntimeException implements Serializable {
+
+    private static final long serialVersionUID = 3444812072879950716L;
 
     public InconsistentFunctionsException() {
 

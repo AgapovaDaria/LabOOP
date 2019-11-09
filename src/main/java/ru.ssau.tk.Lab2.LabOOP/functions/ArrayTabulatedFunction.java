@@ -63,7 +63,6 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
 
     @Override
     protected double extrapolateLeft(double x) {
-
         return interpolate(x, getX(0), getX(1), getY(0), getY(1));
     }
 

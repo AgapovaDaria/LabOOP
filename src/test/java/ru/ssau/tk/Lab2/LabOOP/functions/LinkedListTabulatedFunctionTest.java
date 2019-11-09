@@ -14,9 +14,9 @@ public class LinkedListTabulatedFunctionTest {
 
     private MathFunction testFunc = new ThirdFunction();
     private final double[] xValues = new double[]{1., 3., 4., 8., 12.};
-    private final double[] yValues = new double[]{8., 6., 5., 17., 16.,};
+    private final double[] yValues = new double[]{8., 6., 5., 17., 16.};
 
-    private LinkedListTabulatedFunction listOfArray() {
+    private LinkedListTabulatedFunction listOfList() {
         return new LinkedListTabulatedFunction(xValues, yValues);
     }
 
@@ -32,7 +32,7 @@ public class LinkedListTabulatedFunctionTest {
 
     @Test
     public void testAddNode() {
-        LinkedListTabulatedFunction firstL = listOfArray();
+        LinkedListTabulatedFunction firstL = listOfList();
         firstL.addNode(5, 8);
         assertEquals(firstL.rightBound(), 5, 0.00001);
         assertEquals(xValues.length, 5, 0.00001);
@@ -42,7 +42,7 @@ public class LinkedListTabulatedFunctionTest {
     @Test
 
     public void testGetCount() {
-        LinkedListTabulatedFunction firstList = listOfArray();
+        LinkedListTabulatedFunction firstList = listOfList();
         LinkedListTabulatedFunction secondList = listOfFunc();
         assertEquals(firstList.getCount(), 5, 0.00001);
         assertEquals(secondList.getCount(), 8, 0.00001);
@@ -50,7 +50,7 @@ public class LinkedListTabulatedFunctionTest {
 
     @Test
     public void testInterpolate() {
-        LinkedListTabulatedFunction one = listOfArray();
+        LinkedListTabulatedFunction one = listOfList();
         LinkedListTabulatedFunction two = listOfFunc();
         assertEquals(one.interpolate(1.5, 0), 7.5);
         assertEquals(two.interpolate(6.5, 2), 288.5);
@@ -58,7 +58,7 @@ public class LinkedListTabulatedFunctionTest {
 
     @Test
     public void testLeftBound() {
-        LinkedListTabulatedFunction firstList = listOfArray();
+        LinkedListTabulatedFunction firstList = listOfList();
         LinkedListTabulatedFunction secondList = listOfFunc();
         assertEquals(firstList.leftBound(), 1, 0.00001);
         assertEquals(secondList.leftBound(), 1, 0.00001);
@@ -66,7 +66,7 @@ public class LinkedListTabulatedFunctionTest {
 
     @Test
     public void testRightBound() {
-        LinkedListTabulatedFunction firstList = listOfArray();
+        LinkedListTabulatedFunction firstList = listOfList();
         LinkedListTabulatedFunction secondList = listOfFunc();
         assertEquals(firstList.rightBound(), 12, 0.00001);
         assertEquals(secondList.rightBound(), 15, 0.00001);
@@ -74,7 +74,7 @@ public class LinkedListTabulatedFunctionTest {
 
     @Test
     public void testGetX() {
-        LinkedListTabulatedFunction firstList = listOfArray();
+        LinkedListTabulatedFunction firstList = listOfList();
         LinkedListTabulatedFunction secondList = listOfFunc();
         assertEquals(firstList.getX(1), 3, 0.00001);
         assertEquals(secondList.getX(0), 1, 0.00001);
@@ -88,8 +88,8 @@ public class LinkedListTabulatedFunctionTest {
 
     @Test
     public void testSetY() {
-        LinkedListTabulatedFunction firstList = listOfArray();
-        LinkedListTabulatedFunction twoList = listOfArray();
+        LinkedListTabulatedFunction firstList = listOfList();
+        LinkedListTabulatedFunction twoList = listOfList();
         firstList.setY(4, 16);
         assertEquals(firstList.getY(4), 16, 0.00001);
         twoList.setY(0, 8);
@@ -104,7 +104,7 @@ public class LinkedListTabulatedFunctionTest {
 
     @Test
     public void testGetY() {
-        LinkedListTabulatedFunction firstList = listOfArray();
+        LinkedListTabulatedFunction firstList = listOfList();
         LinkedListTabulatedFunction secondList = listOfFunc();
         assertEquals(firstList.getY(0), 8, 0.00001);
         assertEquals(secondList.getY(0), 1, 0.00001);
@@ -119,7 +119,7 @@ public class LinkedListTabulatedFunctionTest {
 
     @Test
     public void testIndexOfX() {
-        LinkedListTabulatedFunction firstList = listOfArray();
+        LinkedListTabulatedFunction firstList = listOfList();
         LinkedListTabulatedFunction secondList = listOfFunc();
         assertEquals(firstList.indexOfX(1), 0);
         assertEquals(secondList.indexOfX(1), 0);
@@ -128,7 +128,7 @@ public class LinkedListTabulatedFunctionTest {
 
     @Test
     public void testIndexOfY() {
-        LinkedListTabulatedFunction firstList = listOfArray();
+        LinkedListTabulatedFunction firstList = listOfList();
         LinkedListTabulatedFunction secondList = listOfFunc();
         assertEquals(firstList.indexOfY(6), 1);
         assertEquals(secondList.indexOfY(0), -1);
@@ -137,7 +137,7 @@ public class LinkedListTabulatedFunctionTest {
 
     @Test
     public void testFloorIndexOfX() {
-        LinkedListTabulatedFunction firstList = listOfArray();
+        LinkedListTabulatedFunction firstList = listOfList();
         assertEquals(firstList.floorIndexOfX(8.1), 3);
         LinkedListTabulatedFunction secondList = listOfFunc();
         assertEquals(secondList.floorIndexOfX(2.16), 0);
@@ -148,7 +148,7 @@ public class LinkedListTabulatedFunctionTest {
 
     @Test
     public void testExtrapolateLeft() {
-        LinkedListTabulatedFunction firstList = listOfArray();
+        LinkedListTabulatedFunction firstList = listOfList();
         LinkedListTabulatedFunction secondList = listOfFunc();
         assertEquals(firstList.extrapolateLeft(0), 9);
         assertEquals(secondList.extrapolateLeft(0), -12);
@@ -156,7 +156,7 @@ public class LinkedListTabulatedFunctionTest {
 
     @Test
     public void testExtrapolateRight() {
-        LinkedListTabulatedFunction firstList = listOfArray();
+        LinkedListTabulatedFunction firstList = listOfList();
         LinkedListTabulatedFunction secondList = listOfFunc();
         assertEquals(firstList.extrapolateRight(12.5), 15.875);
         assertEquals(secondList.extrapolateRight(16), 3964);
@@ -164,7 +164,7 @@ public class LinkedListTabulatedFunctionTest {
 
     @Test
     public void testIterator() {
-        LinkedListTabulatedFunction firstArray = listOfArray();
+        LinkedListTabulatedFunction firstArray = listOfList();
         Iterator<Point> iterator = firstArray.iterator();
         int i = 0;
         while (iterator.hasNext()) {
