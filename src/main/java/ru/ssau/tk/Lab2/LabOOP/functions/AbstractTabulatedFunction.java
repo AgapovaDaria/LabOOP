@@ -48,11 +48,9 @@ public abstract class AbstractTabulatedFunction implements TabulatedFunction, Se
 
 
     protected static void checkLengthIsTheSame(double[] xValues, double[] yValues) throws DifferentLengthOfArraysException {
-
         if (xValues.length != yValues.length) {
             throw new DifferentLengthOfArraysException("Массивы разной длины");
         }
-
     }
 
     protected static void checkSorted(double[] xValues) throws ArrayIsNotSortedException {
@@ -60,7 +58,6 @@ public abstract class AbstractTabulatedFunction implements TabulatedFunction, Se
             if (xValues[i + 1] <= xValues[i]) {
                 throw new ArrayIsNotSortedException("Массив не отсортирован");
             }
-
         }
     }
 

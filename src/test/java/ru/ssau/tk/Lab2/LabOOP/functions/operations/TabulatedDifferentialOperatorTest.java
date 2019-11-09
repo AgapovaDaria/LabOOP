@@ -1,10 +1,8 @@
-package operations;
+package ru.ssau.tk.Lab2.LabOOP.functions.operations;
 
 import static org.testng.Assert.*;
 
 import org.testng.annotations.Test;
-import ru.ssau.tk.Lab2.LabOOP.functions.ArrayTabulatedFunction;
-import ru.ssau.tk.Lab2.LabOOP.functions.LinkedListTabulatedFunction;
 import ru.ssau.tk.Lab2.LabOOP.functions.Point;
 import ru.ssau.tk.Lab2.LabOOP.functions.TabulatedFunction;
 import ru.ssau.tk.Lab2.LabOOP.functions.factory.ArrayTabulatedFunctionFactory;

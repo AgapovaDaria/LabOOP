@@ -1,4 +1,4 @@
-package operations;
+package ru.ssau.tk.Lab2.LabOOP.functions.operations;
 
 import org.testng.annotations.Test;
 import ru.ssau.tk.Lab2.LabOOP.functions.AbstractTabulatedFunction;
