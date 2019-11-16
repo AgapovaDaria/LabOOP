@@ -4,7 +4,7 @@ import ru.ssau.tk.Lab2.LabOOP.functions.TabulatedFunction;
 
 public class WriteTask implements Runnable {
 
-    private TabulatedFunction function;
+    private final TabulatedFunction function;
     private double value;
 
     WriteTask(TabulatedFunction function, double value) {
@@ -15,8 +15,10 @@ public class WriteTask implements Runnable {
     @Override
     public void run() {
         for (int i = 0; i < function.getCount(); i++) {
-            function.setY(i, value);
-            System.out.printf("Writing for index %d complete\n", i);
+            synchronized (function) {
+                function.setY(i, value);
+                System.out.printf("Writing for index %d complete\n", i);
+            }
         }
     }
 }
