@@ -3,12 +3,13 @@ package ru.ssau.tk.Lab2.LabOOP.functions;
 import ru.ssau.tk.Lab2.LabOOP.exceptions.ArrayIsNotSortedException;
 import ru.ssau.tk.Lab2.LabOOP.exceptions.DifferentLengthOfArraysException;
 import ru.ssau.tk.Lab2.LabOOP.exceptions.InterpolationException;
+
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements Serializable {
+public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements Serializable, Insertable {
     private static final long serialVersionUID = -8424022163055177210L;
     private double[] xValues;
     private double[] yValues;
@@ -74,7 +75,7 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
     @Override
     //Без проверок на корректность данных. Запускается в методе apply()
     protected double interpolate(double x, int floorIndex) {
-        if (x < xValues[floorIndex]  || x > xValues[floorIndex + 1]) {
+        if (x < xValues[floorIndex] || x > xValues[floorIndex + 1]) {
             throw new InterpolationException("х находится вне интервала интерполирования");
         }
         return interpolate(x, getX(floorIndex), getX(floorIndex + 1), getY(floorIndex), getY(floorIndex + 1));
@@ -139,20 +140,59 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
     @Override
     public Iterator<Point> iterator() {
         return new Iterator<Point>() {
-            private int i=0;
+            private int i = 0;
+
             public void remove() {
                 throw new UnsupportedOperationException("remove");
             }
+
             public boolean hasNext() {
                 return (i != count);
             }
+
             public Point next() {
                 if (i == count) {
                     throw new NoSuchElementException();
                 }
-              return new Point(xValues[i], yValues[i++]);
+                return new Point(xValues[i], yValues[i++]);
             }
         };
     }
 
+    @Override
+    public void insert(double x, double y) {
+        int index = indexOfX(x);
+        int floorIndex = floorIndexOfX(x);
+        if (index != -1) {
+            setY(index, y);
+        }
+        double[] masX = new double[count + 1];
+        double[] masY = new double[count + 1];
+        if (floorIndex == 0) {
+            System.arraycopy(xValues, 0, masX, 1, count);
+            System.arraycopy(yValues, 0, masY, 1, count);
+            masX[0] = x;
+            masY[0] = y;
+            count++;
+        } else if (floorIndex == count) {
+            System.arraycopy(xValues, 0, masX, 0, count);
+            System.arraycopy(yValues, 0, masY, 0, count);
+            masX[count] = x;
+            masY[count] = y;
+            count++;
+        } else {
+            System.arraycopy(xValues, 0, masX, 0, floorIndex + 1);
+            System.arraycopy(yValues, 0, masY, 0, floorIndex + 1);
+            masX[floorIndex + 1] = x;
+            masY[floorIndex + 1] = y;
+            System.arraycopy(xValues, floorIndex + 1, masX, floorIndex + 2, count - floorIndex - 1);
+            System.arraycopy(yValues, floorIndex + 1, masY, floorIndex + 2, count - floorIndex - 1);
+            count++;
+        }
+        this.xValues = masX;
+        this.yValues = masY;
+    }
 }
+
+
+

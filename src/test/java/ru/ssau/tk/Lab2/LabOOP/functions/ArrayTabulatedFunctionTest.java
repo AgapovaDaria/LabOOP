@@ -5,6 +5,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import ru.ssau.tk.Lab2.LabOOP.exceptions.InterpolationException;
 
+import java.security.spec.DSAPublicKeySpec;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -32,6 +33,7 @@ public class ArrayTabulatedFunctionTest {
             new ArrayTabulatedFunction(source, 0, 0, 1);
         });
     }
+
     @BeforeClass
     public void startUp() {
         count = masX.length;
@@ -91,7 +93,7 @@ public class ArrayTabulatedFunctionTest {
         double result = fun.interpolate(xNum, index);
 
         Assert.assertEquals(trueResult, result, 0.00001);
-        assertThrows(InterpolationException.class,() -> functionOne.interpolate(10, 1));
+        assertThrows(InterpolationException.class, () -> functionOne.interpolate(10, 1));
     }
 
     //Зависимый тест
@@ -133,14 +135,14 @@ public class ArrayTabulatedFunctionTest {
     }
 
     @Test
-    public void testSetY(){
-        functionOne.setY(2,81);
+    public void testSetY() {
+        functionOne.setY(2, 81);
         Assert.assertEquals(81, functionOne.getY(2), 0.0001);
         Assert.assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
-            functionOne.setY(-12,50);
+            functionOne.setY(-12, 50);
         });
         Assert.assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
-            functionTwo.setY(100,20);
+            functionTwo.setY(100, 20);
         });
     }
 
@@ -175,7 +177,7 @@ public class ArrayTabulatedFunctionTest {
 
     @Test
     public void testIterator() {
-        AbstractTabulatedFunction firstArray = new ArrayTabulatedFunction(masX,masY);
+        AbstractTabulatedFunction firstArray = new ArrayTabulatedFunction(masX, masY);
         Iterator<Point> iterator = firstArray.iterator();
         int i = 0;
         while (iterator.hasNext()) {
@@ -192,7 +194,18 @@ public class ArrayTabulatedFunctionTest {
     }
 
     @Test
-    public void floorIndexOfX(){
-        assertThrows(IllegalArgumentException.class,() -> functionOne.floorIndexOfX(0));
+    public void floorIndexOfX() {
+        assertThrows(IllegalArgumentException.class, () -> functionOne.floorIndexOfX(0));
+    }
+
+    @Test
+    public void testInsert() {
+        double[] xValues = new double[]{1., 3., 4., 8., 12.};
+        double[] yValues = new double[]{8., 6., 5., 17., 16.};
+        ArrayTabulatedFunction function = new ArrayTabulatedFunction(xValues, yValues);
+        function.insert(3., 8.);
+        assertEquals(function.getY(1), 8, 0.0001);
+        function.insert(10., 10);
+        assertEquals(function.getY(5), 10, 0.0001);
     }
 }
