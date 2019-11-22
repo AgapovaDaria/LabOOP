@@ -102,10 +102,10 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
             }
         }
         throw new IllegalArgumentException();
-}
+    }
 
     public double getX(int index) throws IllegalArgumentException {
-        if (index < 0 || index >= count ) {
+        if (index < 0 || index >= count) {
             throw new IllegalArgumentException("Индекс не соотвествует");
         }
         return getNode(index).x;
@@ -175,6 +175,35 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
         public double y;
     }
 
+    private Node nodeOfX(double x) {
+        Node a;
+        a = head;
+        for (int i = 0; i < count; i++) {
+            if (a.x == x) {
+                return a;
+            } else {
+                a = a.next;
+            }
+        }
+        throw new UnsupportedOperationException();
+    }
+
+    private Node floorNodeOfX(double x) throws IllegalArgumentException {
+        Node a;
+        if (x < head.x) {
+            throw new IllegalArgumentException();
+        }
+        a = head;
+        for (int i = 0; i < count; i++) {
+            if (a.x < x) {
+                a = a.next;
+            } else {
+                return a.prev;
+            }
+        }
+        return head.prev;
+    }
+
     @Override
     protected double extrapolateLeft(double x) {
         if (head.x == last.x) {
@@ -203,16 +232,20 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
         return interpolate(x, left.x, right.x, left.y, right.y);
     }
 
+
     @Override
     public Iterator<Point> iterator() {
         return new Iterator<Point>() {
             private Node node = head;
+
             public void remove() {
                 throw new UnsupportedOperationException("remove");
             }
+
             public boolean hasNext() {
                 return (node != null);
             }
+
             public Point next() {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
@@ -226,5 +259,20 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
                 return point;
             }
         };
+    }
+
+    @Override
+    public double apply(double x) {
+        if (x < leftBound()) {
+            return extrapolateLeft(x);
+        } else if (x > rightBound()) {
+            return extrapolateRight(x);
+        } else try {
+            return nodeOfX(x).y;
+        } catch (UnsupportedOperationException e) {
+            Node left = floorNodeOfX(x);
+            Node right = left.next;
+            return super.interpolate(x, left.x, right.x, left.y, right.y);
+        }
     }
 }

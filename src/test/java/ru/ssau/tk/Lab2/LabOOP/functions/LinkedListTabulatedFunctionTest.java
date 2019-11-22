@@ -180,5 +180,13 @@ public class LinkedListTabulatedFunctionTest {
         }
         assertThrows(NoSuchElementException.class, iterator::next);
     }
+
+    @Test
+    public void testApply() {
+        LinkedListTabulatedFunction firstList = listOfList();
+        assertEquals(firstList.apply(0), 9, 0.0001);
+        assertEquals(firstList.apply(8), 17, 0.0001);
+        assertEquals(firstList.apply(6.5), firstList.interpolate(6.5, 2), 0.0001);
+    }
 }
 
