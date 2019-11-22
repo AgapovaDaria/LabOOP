@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements Serializable {
+public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements Serializable, Removable {
     private static final long serialVersionUID = 3418284856807134116L;
     private Node head; // первый элемент "голова"
     private Node last; //последний узел списка "хвост"
@@ -275,4 +275,18 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
             return super.interpolate(x, left.x, right.x, left.y, right.y);
         }
     }
+
+    @Override
+    public void remove(int index) throws IllegalArgumentException {
+        if (index < 0 || index > count) {
+            throw new IllegalArgumentException();
+        }
+        Node a = getNode(index);
+        Node prev = a.prev;
+        Node next = a.next;
+        prev.next = next;
+        next.prev = prev;
+        count--;
+    }
 }
+

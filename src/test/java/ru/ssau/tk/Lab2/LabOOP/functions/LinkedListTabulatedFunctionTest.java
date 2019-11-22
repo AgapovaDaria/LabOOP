@@ -188,5 +188,13 @@ public class LinkedListTabulatedFunctionTest {
         assertEquals(firstList.apply(8), 17, 0.0001);
         assertEquals(firstList.apply(6.5), firstList.interpolate(6.5, 2), 0.0001);
     }
+
+    @Test
+    public void restRemove() {
+        LinkedListTabulatedFunction firstList = listOfList();
+        firstList.remove(1);
+        assertEquals(firstList.getX(1), 4, 0.0001);
+        assertThrows(IllegalArgumentException.class, () -> firstList.remove(-1));
+    }
 }
 
