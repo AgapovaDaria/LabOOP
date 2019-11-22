@@ -6,12 +6,14 @@ import ru.ssau.tk.Lab2.LabOOP.functions.TabulatedFunction;
 import ru.ssau.tk.Lab2.LabOOP.operations.TabulatedFunctionOperationService;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 public class SynchronizedTabulatedFunction implements TabulatedFunction {
+
     private final TabulatedFunction function;
 
-    SynchronizedTabulatedFunction(TabulatedFunction function) {
+    public SynchronizedTabulatedFunction(TabulatedFunction function) {
         this.function = function;
     }
 
@@ -98,5 +100,18 @@ public class SynchronizedTabulatedFunction implements TabulatedFunction {
         synchronized (function){
             return function.rightBound();
         }
+    }
+
+    public interface Operation<T>{
+        T apply(SynchronizedTabulatedFunction synchronizedTabulatedFunction);
+    }
+
+
+    public <T> T  doSynchronously(Operation<? extends T> operation){
+        T tmp;
+        synchronized (this) {
+          tmp =  operation.apply(this);
+        }
+        return tmp;
     }
 }

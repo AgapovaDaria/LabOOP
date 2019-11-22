@@ -1,6 +1,7 @@
 package ru.ssau.tk.Lab2.LabOOP.concurrent;
 
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import ru.ssau.tk.Lab2.LabOOP.functions.*;
 
 import static org.testng.Assert.*;
@@ -137,5 +138,24 @@ public class SynchronizedTabulatedFunctionTest {
         SynchronizedTabulatedFunction firstArray = arrayConsistingOfTwoArrays();
         assertEquals(firstArray.apply(0.), 9., 0.00001);
         assertEquals(firstArray.apply(10.), 16.5, 0.00001);
+    }
+
+    @BeforeMethod
+    public void setUp() {
+    }
+
+    @Test
+    public void testDoSynchronously() {
+        SynchronizedTabulatedFunction fun = arrayOfFunctions();
+
+        SynchronizedTabulatedFunction.Operation<Void> oneOperation = synchronizedTabulatedFunction -> {
+            synchronizedTabulatedFunction.setY(0, 9);
+            return null;
+        };
+
+        SynchronizedTabulatedFunction.Operation<Integer> twoOperation = SynchronizedTabulatedFunction::getCount;
+
+        assertNull(fun.doSynchronously(oneOperation));
+        assertEquals((int)(fun.doSynchronously(twoOperation)), 8);
     }
 }
