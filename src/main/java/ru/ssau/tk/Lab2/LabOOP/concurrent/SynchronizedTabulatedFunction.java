@@ -1,5 +1,6 @@
 package ru.ssau.tk.Lab2.LabOOP.concurrent;
 
+import com.sun.istack.internal.NotNull;
 import ru.ssau.tk.Lab2.LabOOP.functions.Point;
 import ru.ssau.tk.Lab2.LabOOP.functions.TabulatedFunction;
 import ru.ssau.tk.Lab2.LabOOP.operations.TabulatedFunctionOperationService;
@@ -9,89 +10,92 @@ import java.util.NoSuchElementException;
 
 public class SynchronizedTabulatedFunction implements TabulatedFunction {
     private final TabulatedFunction function;
-    final Object mutex;
 
     SynchronizedTabulatedFunction(TabulatedFunction function) {
         this.function = function;
-        this.mutex = this;
     }
 
+    @NotNull
     @Override
-    public synchronized Iterator<Point> iterator() {
-        Point[] copy = TabulatedFunctionOperationService.asPoints(function);
-        return new Iterator<Point>() {
-            int i = 0;
-            public boolean hasNext() {
-                return i != copy.length;
-            }
-            public Point next() {
-                if (i == copy.length) {
-                    throw new NoSuchElementException();
+    public Iterator<Point> iterator() {
+        synchronized (function) {
+            Point[] copy = TabulatedFunctionOperationService.asPoints(function);
+            return new Iterator<Point>() {
+                int i = 0;
+
+                public boolean hasNext() {
+                    return i != copy.length;
                 }
-                return new Point(copy[i].x, copy[i++].y);
-            }
-        };
+
+                public Point next() {
+                    if (i == copy.length) {
+                        throw new NoSuchElementException();
+                    }
+                    return new Point(copy[i].x, copy[i++].y);
+                }
+            };
+        }
     }
 
     @Override
     public double apply(double x){
-        synchronized (mutex){
+        synchronized (function){
             return function.apply(x);
         }
     }
 
     @Override
     public int getCount() {
-        synchronized (mutex) {
+        synchronized (function) {
             return function.getCount();
         }
     }
 
     @Override
     public double getX(int index) {
-        synchronized (mutex) {
+        synchronized (function) {
             return function.getX(index);
         }
     }
 
     @Override
     public double getY(int index) {
-        synchronized (mutex) {
+        synchronized (function) {
             return function.getY(index);
         }
     }
 
     @Override
     public void setY(int index, double value) {
-        synchronized (mutex) {
+        synchronized (function) {
             function.setY(index, value);
         }
     }
 
     @Override
     public int indexOfX(double x){
-        synchronized (mutex){
+        synchronized (function){
             return function.indexOfX(x);
         }
     }
 
     @Override
     public int indexOfY(double y){
-        synchronized (mutex){
+        synchronized (function){
             return function.indexOfY(y);
         }
     }
 
     @Override
     public double leftBound(){
-        synchronized (mutex){
+        synchronized (function){
             return function.leftBound();
         }
     }
 
     @Override
     public double rightBound(){
-        synchronized (mutex){
+        synchronized (function){
             return function.rightBound();
         }
     }
