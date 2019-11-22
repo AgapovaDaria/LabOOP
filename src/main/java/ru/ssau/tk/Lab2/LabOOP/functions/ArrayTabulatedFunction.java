@@ -106,9 +106,6 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
 
     @Override
     public int indexOfX(double x) {
-        if (x < leftBound() || x > rightBound()) {
-            return -1;
-        }
         double val;
         for (int i = 0; i < count; i++) {
             val = xValues[i];
