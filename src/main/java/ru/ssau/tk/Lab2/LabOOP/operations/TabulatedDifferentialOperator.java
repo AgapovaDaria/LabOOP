@@ -43,7 +43,6 @@ public class TabulatedDifferentialOperator implements DifferentialOperator<Tabul
     }
 
     public TabulatedFunction deriveSynchronously(TabulatedFunction function) {
-
         if (!(function instanceof SynchronizedTabulatedFunction)) {
             SynchronizedTabulatedFunction synchronizedTabulatedFunction = new SynchronizedTabulatedFunction(function);
             return synchronizedTabulatedFunction.doSynchronously(this::derive);

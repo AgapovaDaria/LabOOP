@@ -34,7 +34,7 @@ public class TabulatedDifferentialOperatorTest {
     @Test
     public void testDeriveSynchronously() {
         TabulatedDifferentialOperator differentialOperator = new TabulatedDifferentialOperator(arrayFun);
-        TabulatedFunction derive = differentialOperator.derive(a);
+        TabulatedFunction derive = differentialOperator.deriveSynchronously(a);
         for (Point point : derive) {
             assertEquals(point.y, 0.4);
         }
