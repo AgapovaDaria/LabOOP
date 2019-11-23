@@ -48,6 +48,6 @@ public class TabulatedDifferentialOperator implements DifferentialOperator<Tabul
             SynchronizedTabulatedFunction synchronizedTabulatedFunction = new SynchronizedTabulatedFunction(function);
             return synchronizedTabulatedFunction.doSynchronously(this::derive);
         }
-        return derive(function);
+        return ((SynchronizedTabulatedFunction) function).doSynchronously(this::derive);
     }
 }

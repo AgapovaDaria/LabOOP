@@ -30,4 +30,13 @@ public class TabulatedDifferentialOperatorTest {
             assertEquals(point.y, 0.4);
         }
     }
+
+    @Test
+    public void testDeriveSynchronously() {
+        TabulatedDifferentialOperator differentialOperator = new TabulatedDifferentialOperator(arrayFun);
+        TabulatedFunction derive = differentialOperator.derive(a);
+        for (Point point : derive) {
+            assertEquals(point.y, 0.4);
+        }
+    }
 }
