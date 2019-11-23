@@ -1,4 +1,4 @@
-package ru.ssau.tk.Lab2.LabOOP.functions.operations;
+package ru.ssau.tk.Lab2.LabOOP.operations;
 
 import org.testng.annotations.Test;
 

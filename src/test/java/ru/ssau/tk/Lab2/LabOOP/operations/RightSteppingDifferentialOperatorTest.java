@@ -1,10 +1,8 @@
-package ru.ssau.tk.Lab2.LabOOP.functions.operations;
+package ru.ssau.tk.Lab2.LabOOP.operations;
 
 import org.testng.annotations.Test;
 import ru.ssau.tk.Lab2.LabOOP.functions.MathFunction;
 import ru.ssau.tk.Lab2.LabOOP.functions.SqrFunction;
-import ru.ssau.tk.Lab2.LabOOP.operations.RightSteppingDifferentialOperator;
-import ru.ssau.tk.Lab2.LabOOP.operations.SteppingDifferentialOperator;
 
 import static org.testng.Assert.assertEquals;
 
