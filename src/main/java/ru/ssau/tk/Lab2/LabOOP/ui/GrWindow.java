@@ -19,7 +19,7 @@ public class GrWindow extends Application {
     private static final int SPACING_SIZE = 10;
 
     TextField textField = new TextField();
-    Button addRowButton = new Button("Сохранить");
+    Button addRowButton = new Button("Save");
     ObservableList<IndexStringRecord> records = FXCollections.observableArrayList();
     TableView<IndexStringRecord> table = new TableView<>();
 
@@ -83,7 +83,8 @@ public class GrWindow extends Application {
                         records.add(new IndexStringRecord(0, 0));
                     }
                 } catch (NumberFormatException e) {
-                    // добавить окно
+                    ErrorWindows errorWindows = new  ErrorWindows();
+                    errorWindows.showAlertWithoutHeaderText(e);
                 }
             }
         });
