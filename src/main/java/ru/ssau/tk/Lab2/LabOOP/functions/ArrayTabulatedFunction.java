@@ -1,5 +1,8 @@
 package ru.ssau.tk.Lab2.LabOOP.functions;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import ru.ssau.tk.Lab2.LabOOP.exceptions.ArrayIsNotSortedException;
 import ru.ssau.tk.Lab2.LabOOP.exceptions.DifferentLengthOfArraysException;
 import ru.ssau.tk.Lab2.LabOOP.exceptions.InterpolationException;
@@ -11,10 +14,13 @@ import java.util.NoSuchElementException;
 
 public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements Serializable, Insertable {
     private static final long serialVersionUID = -8424022163055177210L;
+    @JsonFormat(shape = JsonFormat.Shape.ARRAY)
     private double[] xValues;
+    @JsonFormat(shape = JsonFormat.Shape.ARRAY)
     private double[] yValues;
 
-    public ArrayTabulatedFunction(double[] xValues, double[] yValues) throws IllegalArgumentException,
+    @JsonCreator
+    public ArrayTabulatedFunction(@JsonProperty(value = "xValues") double[] xValues, @JsonProperty(value = "yValues") double[] yValues) throws IllegalArgumentException,
             DifferentLengthOfArraysException, ArrayIsNotSortedException {
         if (xValues.length < 2) {
             throw new IllegalArgumentException("Массив меньше данной длины");
