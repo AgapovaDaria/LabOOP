@@ -9,27 +9,28 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import ru.ssau.tk.Lab2.LabOOP.functions.TabulatedFunction;
+import ru.ssau.tk.Lab2.LabOOP.functions.factory.ArrayTabulatedFunctionFactory;
 
-public class GrWindow extends Application{
+public class GrWindow extends Application {
     private static final int SPACING_SIZE = 10;
 
     TextField textField = new TextField();
     Button addRowButton = new Button("Save");
-    Button newButton = new Button("Creat");
-    ObservableList<IndexStringRecord> records = FXCollections.observableArrayList();
-    TableView<IndexStringRecord> table = new TableView<>();
-
+    Button newButton = new Button("Create");
+    ObservableList<PointRecord> records = FXCollections.observableArrayList();
+    TableView<PointRecord> table = new TableView<>();
 
     @Override
     public void start(Stage stage) {
         compose(stage);
         configureTable();
         addButtonListeners();
+        newButtonListeners(stage);
         stage.show();
     }
 
@@ -58,18 +59,24 @@ public class GrWindow extends Application{
     public void configureTable() {
         table.setEditable(true);
         table.setItems(records);
-        TableColumn<IndexStringRecord, Double> xColumn = new TableColumn<>("X");
-        TableColumn<IndexStringRecord, Double> yColumn = new TableColumn<>("Y");
+        TableColumn<PointRecord, Double> xColumn = new TableColumn<>("X");
+        TableColumn<PointRecord, Double> yColumn = new TableColumn<>("Y");
         xColumn.setCellValueFactory(new PropertyValueFactory<>("x"));
         yColumn.setCellValueFactory(new PropertyValueFactory<>("y"));
-
-//        yColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-//        yColumn.setOnEditCommit((EventHandler<TableColumn.CellEditEvent<IndexStringRecord, String>>) event -> {
-//            int rowNumber = event.getTablePosition().getRow();
-//            if (rowNumber != -1) {
-//                records.get(rowNumber).setValue(event.getNewValue());
-//            }
-//        });
+        yColumn.setCellFactory(column -> new TableProcessing());
+        yColumn.setOnEditCommit(event -> {
+            int rowNumber = event.getTablePosition().getRow();
+            if (rowNumber != -1) {
+                records.get(rowNumber).setY(event.getNewValue());
+            }
+        });
+        xColumn.setCellFactory(column -> new TableProcessing());
+        xColumn.setOnEditCommit(event -> {
+            int rowNumber = event.getTablePosition().getRow();
+            if (rowNumber != -1) {
+                records.get(rowNumber).setX(event.getNewValue());
+            }
+        });
         table.getColumns().add(xColumn);
         table.getColumns().add(yColumn);
     }
@@ -79,7 +86,7 @@ public class GrWindow extends Application{
             try {
                 int count = Integer.parseInt(textField.getText());
                 for (int i = 0; i < count; i++) {
-                    records.add(new IndexStringRecord(new TextField(),new TextField()));
+                    records.add(new PointRecord(0, 0));
                 }
             } catch (NumberFormatException e) {
                 ErrorWindows errorWindows = new ErrorWindows();
@@ -88,17 +95,25 @@ public class GrWindow extends Application{
         });
     }
 
-    public void NewButtonListeners() {
+    public void newButtonListeners(Stage stage) {
         newButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 try {
-
+                    double[] xValues = new double[records.size()];
+                    double[] yValues = new double[records.size()];
+                    for (int i = 0; i < records.size(); i++) {
+                        PointRecord pointRecord = records.get(i);
+                        xValues[i] = pointRecord.getX();
+                        yValues[i] = pointRecord.getY();
+                    }
+                    ArrayTabulatedFunctionFactory factory = new ArrayTabulatedFunctionFactory();
+                    TabulatedFunction function = factory.create(xValues, yValues);
+                    stage.close();
                 } catch (NumberFormatException e) {
                     ErrorWindows errorWindows = new ErrorWindows();
                     errorWindows.showAlertWithoutHeaderText(e);
                 }
-
             }
         });
     }
