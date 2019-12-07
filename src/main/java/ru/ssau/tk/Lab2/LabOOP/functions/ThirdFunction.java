@@ -6,4 +6,9 @@ public class ThirdFunction implements MathFunction {
     public double apply(double x) {
         return java.lang.Math.pow(x,3);
     }
+
+    @Override
+    public String toString() {
+        return "Кубическая функция";
+    }
 }

@@ -10,4 +10,9 @@ public class SqrFunction implements MathFunction{
     public double apply(double x) {
         return Math.pow(x,2);
     }
+
+    @Override
+    public String toString() {
+        return "Квадратичная функция";
+    }
 }

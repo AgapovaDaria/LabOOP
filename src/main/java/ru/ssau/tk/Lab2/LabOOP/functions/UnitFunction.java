@@ -6,4 +6,9 @@ public class UnitFunction extends ConstantFunction{
     public UnitFunction(){
         super(1);
     }
+
+    @Override
+    public String toString() {
+        return "Единичная функция";
+    }
 }

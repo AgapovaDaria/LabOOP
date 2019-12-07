@@ -6,5 +6,10 @@ public class TangFunction implements MathFunction{
     public double apply(double x) {
         return Math.tan(x);
     }
+
+    @Override
+    public String toString() {
+        return "Тангенциальная функция";
+    }
 }
 
