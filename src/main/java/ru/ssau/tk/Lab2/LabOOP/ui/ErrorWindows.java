@@ -4,6 +4,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
+import ru.ssau.tk.Lab2.LabOOP.exceptions.ArrayIsNotSortedException;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -28,6 +29,9 @@ public class ErrorWindows {
     private String generateMessageForException(Exception e) {
         if (e instanceof NumberFormatException) {
             return "A number is expected, not a string.";
+        }
+        if (e instanceof ArrayIsNotSortedException) {
+            return "Array is not sorted.";
         }
         return "Unknown error.";
     }
