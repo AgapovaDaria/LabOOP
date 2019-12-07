@@ -11,7 +11,7 @@ public class ConstantFunctionTest {
         double result;
         double x = 10.3;
         double value = 9;
-        MathFunction func = new ConstantFunction(x);
+        MathFunction func = new ConstantFunction((int) x);
 
 
         //act

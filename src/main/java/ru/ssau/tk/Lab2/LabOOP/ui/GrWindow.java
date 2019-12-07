@@ -15,7 +15,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class GrWindow extends Application {
+public class GrWindow extends Application{
     private static final int SPACING_SIZE = 10;
 
     TextField textField = new TextField();
@@ -44,7 +44,7 @@ public class GrWindow extends Application {
         textBox.setAlignment(Pos.TOP_CENTER);
         textBox.getChildren().addAll(label, textField);
         buttonBox.getChildren().addAll(addRowButton);
-        mainBox.getChildren().addAll(textBox,buttonBox, table);
+        mainBox.getChildren().addAll(textBox, buttonBox, table);
         Scene scene = new Scene(mainBox, 400, 200);
         stage.setTitle("My window");
         stage.setScene(scene);
@@ -53,10 +53,10 @@ public class GrWindow extends Application {
     public void configureTable() {
         table.setEditable(true);
         table.setItems(records);
-        TableColumn<IndexStringRecord, Double>  xColumn = new TableColumn<>("X");
-        TableColumn<IndexStringRecord, Double>  yColumn = new TableColumn<>("Y");
-        xColumn.setCellValueFactory(new PropertyValueFactory<>("xColumn"));
-        yColumn.setCellValueFactory(new PropertyValueFactory<>("yComumn"));
+        TableColumn<IndexStringRecord, Double> xColumn = new TableColumn<>("X");
+        TableColumn<IndexStringRecord, Double> yColumn = new TableColumn<>("Y");
+        xColumn.setCellValueFactory(new PropertyValueFactory<>("x"));
+        yColumn.setCellValueFactory(new PropertyValueFactory<>("y"));
 
 //        yColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 //        yColumn.setOnEditCommit((EventHandler<TableColumn.CellEditEvent<IndexStringRecord, String>>) event -> {
@@ -65,27 +65,20 @@ public class GrWindow extends Application {
 //                records.get(rowNumber).setValue(event.getNewValue());
 //            }
 //        });
-        table.getColumns().
-
-                add(xColumn);
-        table.getColumns().
-
-                add(yColumn);
+        table.getColumns().add(xColumn);
+        table.getColumns().add(yColumn);
     }
 
     public void addButtonListeners() {
-        addRowButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                try {
-                    int count = Integer.parseInt(textField.getText());
-                    for (int i=0; i<count; i++) {
-                        records.add(new IndexStringRecord(0, 0));
-                    }
-                } catch (NumberFormatException e) {
-                    ErrorWindows errorWindows = new  ErrorWindows();
-                    errorWindows.showAlertWithoutHeaderText(e);
+        addRowButton.setOnMouseClicked(event -> {
+            try {
+                int count = Integer.parseInt(textField.getText());
+                for (int i = 0; i < count; i++) {
+                    records.add(new IndexStringRecord(new TextField(),new TextField()));
                 }
+            } catch (NumberFormatException e) {
+                ErrorWindows errorWindows = new ErrorWindows();
+                errorWindows.showAlertWithoutHeaderText(e);
             }
         });
     }

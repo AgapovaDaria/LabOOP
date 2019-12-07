@@ -1,27 +1,32 @@
 package ru.ssau.tk.Lab2.LabOOP.ui;
 
-public class IndexStringRecord {
-    private double x;
-    private double y;
+import javafx.scene.control.TextField;
 
-    public IndexStringRecord(double x, double y) {
+public class IndexStringRecord {
+    private TextField x;
+    private TextField y;
+
+
+    public IndexStringRecord(TextField x, TextField y) {
+
         this.x = x;
         this.y = y;
     }
 
-    public double getX() {
+    public TextField getX() {
         return x;
     }
 
-    public void setX(double x) {
+    public void setX(TextField x) {
         this.x = x;
     }
 
-    public double getY() {
+
+    public TextField getY() {
         return y;
     }
 
-    public void setY(double y) {
+    public void setY(TextField y) {
         this.y = y;
     }
 }
