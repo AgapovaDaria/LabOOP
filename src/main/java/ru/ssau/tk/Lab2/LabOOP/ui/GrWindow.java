@@ -20,6 +20,7 @@ public class GrWindow extends Application{
 
     TextField textField = new TextField();
     Button addRowButton = new Button("Save");
+    Button newButton = new Button("Creat");
     ObservableList<IndexStringRecord> records = FXCollections.observableArrayList();
     TableView<IndexStringRecord> table = new TableView<>();
 
@@ -39,13 +40,17 @@ public class GrWindow extends Application{
         HBox textBox = new HBox();
         Label label = new Label("Count:  ");
         HBox buttonBox = new HBox();
+        HBox newButtonBox = new HBox();
         buttonBox.setAlignment(Pos.TOP_CENTER);
         buttonBox.setSpacing(SPACING_SIZE);
         textBox.setAlignment(Pos.TOP_CENTER);
+        newButtonBox.setAlignment(Pos.TOP_RIGHT);
+        newButtonBox.setSpacing(SPACING_SIZE);
+        newButtonBox.getChildren().addAll(newButton);
         textBox.getChildren().addAll(label, textField);
         buttonBox.getChildren().addAll(addRowButton);
-        mainBox.getChildren().addAll(textBox, buttonBox, table);
-        Scene scene = new Scene(mainBox, 400, 200);
+        mainBox.getChildren().addAll(textBox, buttonBox, table, newButtonBox);
+        Scene scene = new Scene(mainBox, 300, 350);
         stage.setTitle("My window");
         stage.setScene(scene);
     }
@@ -79,6 +84,21 @@ public class GrWindow extends Application{
             } catch (NumberFormatException e) {
                 ErrorWindows errorWindows = new ErrorWindows();
                 errorWindows.showAlertWithoutHeaderText(e);
+            }
+        });
+    }
+
+    public void NewButtonListeners() {
+        newButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                try {
+
+                } catch (NumberFormatException e) {
+                    ErrorWindows errorWindows = new ErrorWindows();
+                    errorWindows.showAlertWithoutHeaderText(e);
+                }
+
             }
         });
     }
