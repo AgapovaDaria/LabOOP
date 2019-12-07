@@ -22,7 +22,6 @@ public class FirstWindow {
     private TextField textField1 = new TextField();
     private TextField textField2 = new TextField();
     private TextField textField3 = new TextField();
-    private Button addRowButton = new Button("Save");
     private Button newButton = new Button("Create");
     private ObservableList<PointRecord> records = FXCollections.observableArrayList();
     ObservableList<MathFunction> fun = FXCollections.observableArrayList(new SqrFunction(), new UnitFunction(), new ThirdFunction(),
@@ -32,7 +31,6 @@ public class FirstWindow {
 
     public void start() {
         compose();
-        addButtonListeners();
         newButtonListeners();
         stage.show();
     }
@@ -55,23 +53,9 @@ public class FirstWindow {
         newButtonBox.getChildren().addAll(newButton);
         textBox.getChildren().addAll(label, choiceBox);
         mainBox.getChildren().addAll(textBox, label1, textField1, label2, textField2, label3, textField3, newButtonBox);
-        Scene scene = new Scene(mainBox, 500, 350);
+        Scene scene = new Scene(mainBox, 500, 280);
         stage.setTitle("My window");
         stage.setScene(scene);
-    }
-
-    public void addButtonListeners() {
-        addRowButton.setOnMouseClicked(event -> {
-            try {
-                int count = Integer.parseInt(textField.getText());
-                for (int i = 0; i < count; i++) {
-                    records.add(new PointRecord(0, 0));
-                }
-            } catch (NumberFormatException e) {
-                ErrorWindows errorWindows = new ErrorWindows();
-                errorWindows.showAlertWithoutHeaderText(e);
-            }
-        });
     }
 
     public void newButtonListeners() {
