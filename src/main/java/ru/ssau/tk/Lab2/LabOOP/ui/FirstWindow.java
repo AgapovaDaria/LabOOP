@@ -19,19 +19,22 @@ import java.util.*;
 
 
 public class FirstWindow {
+
     private static final int SPACING_SIZE = 10;
 
     private TextField textField1 = new TextField();
     private TextField textField2 = new TextField();
     private TextField textField3 = new TextField();
+
     private Button newButton = new Button("Create");
-    ObservableList<String> fun = FXCollections.observableArrayList(new SqrFunction().toString(), new UnitFunction().toString(),
-            new ThirdFunction().toString(),
-            new TangFunction().toString(), new ZeroFunction().toString());
+    private ObservableList<String> observableList;
+    private HashMap<String, MathFunction> functionHashMap;
+    private TabulatedFunction selectedFunction;
 
     private Stage stage = new Stage();
 
     public void start() {
+        setInitValue();
         compose();
         newButtonListeners();
         stage.show();
@@ -48,7 +51,7 @@ public class FirstWindow {
         Label label3 = new Label("xTo:  ");
 
         HBox newButtonBox = new HBox();
-        ChoiceBox<String> choiceBox = new ChoiceBox<>(fun);
+        ChoiceBox<String> choiceBox = new ChoiceBox<>(observableList);
         textBox.setAlignment(Pos.TOP_CENTER);
         newButtonBox.setAlignment(Pos.TOP_RIGHT);
         newButtonBox.setSpacing(SPACING_SIZE);
@@ -60,42 +63,53 @@ public class FirstWindow {
         stage.setScene(scene);
     }
 
+
     public void newButtonListeners() {
         newButton.setOnMouseClicked(event -> {
             try {
                 int count = Integer.parseInt(textField1.getText());
                 double xFrom = Double.parseDouble(textField2.getText());
                 double xTo = Double.parseDouble(textField3.getText());
-                ArrayTabulatedFunctionFactory factory = new ArrayTabulatedFunctionFactory();
-                SortedMap<String, MathFunction> name = new TreeMap<>();
-               // Collections.sort(name,Comparator<Map.Entry>);
-                name.put("Квадратичная функция", new SqrFunction());
-                name.put("Единичная функция", new UnitFunction());
-                name.put("Кубическая функция", new ThirdFunction());
-                name.put("Тангенциальная функция", new TangFunction());
-                name.put("Нулевая функция", new ZeroFunction());
-                TabulatedFunction function = factory.create(name.get(fun), xFrom, xTo, count);
 
-                stage.close();
+                ArrayTabulatedFunctionFactory factory = new ArrayTabulatedFunctionFactory();
+                selectedFunction = factory.create(functionHashMap.getOrDefault(observableList, new ZeroFunction()), xFrom, xTo, count);
+
             } catch (NumberFormatException e) {
                 ErrorWindows errorWindows = new ErrorWindows();
                 errorWindows.showAlertWithoutHeaderText(e);
+            } finally {
+                stage.close();
             }
         });
     }
 
-    /*@Override
-    public String toString() {
-        Map< String,MathFunction> name = new HashMap<>();
-        name.put("Квадратичная функция",new SqrFunction());
-        name.put("Единичная функция",new UnitFunction());
-        name.put("Кубическая функция",new ThirdFunction());
-        name.put("Тангенциальная функция",new TangFunction());
-        name.put("Нулевая функция",new ZeroFunction());
-        return "FirstWindow{" +
-                "fun=" + fun +
-                '}';
+    private void setInitValue() {
+        functionHashMap = new HashMap<>();
+
+        MathFunction function = new ZeroFunction();
+        functionHashMap.put(function.toString(), function);
+
+        observableList = FXCollections.observableArrayList(
+                function.toString()
+        );
+
+        function = new SqrFunction();
+        functionHashMap.put(function.toString(), function);
+        observableList.add(function.toString());
+
+        function = new UnitFunction();
+        functionHashMap.put(function.toString(), function);
+        observableList.add(function.toString());
+
+        function = new ThirdFunction();
+        functionHashMap.put(function.toString(), function);
+        observableList.add(function.toString());
+
+        function = new TangFunction();
+        functionHashMap.put(function.toString(), function);
+        observableList.add(function.toString());
+
+        observableList = observableList.sorted();
     }
 
-     */
 }
