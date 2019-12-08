@@ -1,8 +1,12 @@
 package ru.ssau.tk.Lab2.LabOOP.io;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import ru.ssau.tk.Lab2.LabOOP.functions.ArrayTabulatedFunction;
 import ru.ssau.tk.Lab2.LabOOP.functions.Point;
 import ru.ssau.tk.Lab2.LabOOP.functions.TabulatedFunction;
 import ru.ssau.tk.Lab2.LabOOP.functions.factory.TabulatedFunctionFactory;
+
 import java.io.*;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -72,5 +76,23 @@ public final class FunctionsIO {
 
     public static TabulatedFunction deserialize(BufferedInputStream stream) throws IOException, ClassNotFoundException {
         return (TabulatedFunction) new ObjectInputStream(stream).readObject();
+    }
+
+    public static void serializeJson(BufferedWriter writer, ArrayTabulatedFunction function) throws IOException {
+        ObjectMapper stream = new ObjectMapper();
+        try {
+            writer.write(stream.writeValueAsString(function));
+        } catch (JsonMappingException e) {
+            throw new IOException(e);
+        }
+    }
+
+    public static ArrayTabulatedFunction deserializeJson(BufferedReader reader) throws IOException {
+        ObjectMapper stream = new ObjectMapper();
+        try {
+            return stream.readerFor(ArrayTabulatedFunction.class).readValue(reader);
+        } catch (JsonMappingException e) {
+            throw new IOException(e);
+        }
     }
 }
