@@ -1,6 +1,7 @@
 package ru.ssau.tk.Lab2.LabOOP.ui;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -26,5 +27,9 @@ public class GrWindow extends Application {
         window.start();
         FirstWindow firstWindow = new FirstWindow();
         firstWindow.start();
+        stage.setOnCloseRequest(e -> {
+            Platform.exit();
+            System.exit(0);
+        });
     }
 }
