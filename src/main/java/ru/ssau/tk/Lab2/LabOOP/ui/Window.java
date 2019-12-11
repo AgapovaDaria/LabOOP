@@ -11,7 +11,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import ru.ssau.tk.Lab2.LabOOP.functions.AbstractTabulatedFunction;
 import ru.ssau.tk.Lab2.LabOOP.functions.TabulatedFunction;
 import ru.ssau.tk.Lab2.LabOOP.functions.factory.ArrayTabulatedFunctionFactory;
 
@@ -25,15 +27,15 @@ public class Window {
     private TableView<PointRecord> table = new TableView<>();
     private Stage stage = new Stage();
 
-    public void start() {
-        compose();
+    public void start(Stage parameterStage, AbstractTabulatedFunction function) {
+        compose(parameterStage);
         configureTable();
         addButtonListeners();
         newButtonListeners();
         stage.show();
     }
 
-    public void compose() {
+    public void compose(Stage parameterStage) {
         VBox mainBox = new VBox();
         mainBox.setPadding(new Insets(SPACING_SIZE));
         mainBox.setSpacing(SPACING_SIZE);
@@ -51,7 +53,9 @@ public class Window {
         buttonBox.getChildren().addAll(addRowButton);
         mainBox.getChildren().addAll(textBox, buttonBox, table, newButtonBox);
         Scene scene = new Scene(mainBox, 300, 350);
-        stage.setTitle("My window");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(parameterStage);
+        stage.setTitle("Creating a value table");
         stage.setScene(scene);
     }
 

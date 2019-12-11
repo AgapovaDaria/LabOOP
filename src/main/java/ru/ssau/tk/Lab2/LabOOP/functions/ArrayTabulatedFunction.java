@@ -53,6 +53,9 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
         }
     }
 
+    public ArrayTabulatedFunction() {
+
+    }
 
     @Override
     protected int floorIndexOfX(double x) throws IllegalArgumentException {
@@ -197,6 +200,11 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
         }
         this.xValues = masX;
         this.yValues = masY;
+    }
+
+    @Override
+    public String toString() {
+        return "Реализация на основе массива";
     }
 }
 

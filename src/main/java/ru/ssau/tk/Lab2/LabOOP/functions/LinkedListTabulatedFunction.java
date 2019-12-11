@@ -65,6 +65,10 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
         }
     }
 
+    public LinkedListTabulatedFunction(){
+
+    }
+
     public int getCount() {
         return count;
     }
@@ -287,6 +291,11 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
         prev.next = next;
         next.prev = prev;
         count--;
+    }
+
+    @Override
+    public String toString() {
+        return "Реализация на основе связного списка";
     }
 }
 

@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ru.ssau.tk.Lab2.LabOOP.functions.*;
 import ru.ssau.tk.Lab2.LabOOP.functions.factory.ArrayTabulatedFunctionFactory;
@@ -33,14 +34,14 @@ public class FirstWindow {
 
     private Stage stage = new Stage();
 
-    public void start() {
+    public void start(Stage parameterStage, AbstractTabulatedFunction function) {
         setInitValue();
-        compose();
+        compose(parameterStage);
         newButtonListeners();
         stage.show();
     }
 
-    public void compose() {
+    public void compose(Stage parameterStage) {
         VBox mainBox = new VBox();
         mainBox.setPadding(new Insets(SPACING_SIZE));
         mainBox.setSpacing(SPACING_SIZE);
@@ -59,6 +60,8 @@ public class FirstWindow {
         textBox.getChildren().addAll(label, choiceBox);
         mainBox.getChildren().addAll(textBox, label1, textField1, label2, textField2, label3, textField3, newButtonBox);
         Scene scene = new Scene(mainBox, 500, 280);
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(parameterStage);
         stage.setTitle("My window");
         stage.setScene(scene);
     }
