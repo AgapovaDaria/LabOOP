@@ -207,6 +207,3 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
         return "Реализация на основе массива";
     }
 }
-
-
-

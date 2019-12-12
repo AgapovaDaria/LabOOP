@@ -21,7 +21,7 @@ import java.util.HashMap;
 public class SettingsWindow extends Stage {
 
     private static final int SPACING_SIZE = 10;
-    AbstractTabulatedFunction function;
+    private AbstractTabulatedFunction function = new ArrayTabulatedFunction();
     private Stage stage = new Stage();
     private Button okButton = new Button("Ок");
     ObservableList<String> observableList = FXCollections.observableArrayList();
@@ -46,6 +46,7 @@ public class SettingsWindow extends Stage {
         buttonBox.getChildren().addAll(okButton);
         Label label = new Label("Generation factory:  ");
         ComboBox<String> langsComboBox = new ComboBox<>(observableList);
+        langsComboBox.setValue(function.toString());
         langsComboBox.getSelectionModel().selectFirst();
         textBox.getChildren().addAll(label, langsComboBox);
         mainBox.getChildren().addAll(textBox, buttonBox);
