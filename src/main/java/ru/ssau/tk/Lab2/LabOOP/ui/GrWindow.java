@@ -8,6 +8,8 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import ru.ssau.tk.Lab2.LabOOP.functions.AbstractTabulatedFunction;
+import ru.ssau.tk.Lab2.LabOOP.functions.TabulatedFunction;
+import ru.ssau.tk.Lab2.LabOOP.operations.TabulatedFunctionOperationService;
 
 
 public class GrWindow extends Application {
@@ -30,11 +32,12 @@ public class GrWindow extends Application {
         Menu setMenu = new Menu(" Settings ");
         MenuItem tableItem = new MenuItem(" Table ");
         MenuItem openFileItem = new MenuItem(" Functions ");
+        MenuItem openCalculator = new MenuItem(" Calculator ");
         MenuItem exitItem = new MenuItem(" Exit ");
         MenuItem setItem = new MenuItem(" Factory settings ");
         exitItem.setAccelerator(KeyCombination.keyCombination("Ctrl+X"));
         setItem.setAccelerator(KeyCombination.keyCombination("Ctrl+A"));
-        fileMenu.getItems().addAll(tableItem, openFileItem, exitItem);
+        fileMenu.getItems().addAll(tableItem, openFileItem, openCalculator, exitItem);
         setMenu.getItems().addAll(setItem);
         menuBar.getMenus().addAll(fileMenu, setMenu);
         setItem.setOnAction(event -> {
@@ -45,10 +48,15 @@ public class GrWindow extends Application {
         tableItem.setOnAction(event -> {
             Window window = new Window();
             window.start(stage, function);
+
         });
         openFileItem.setOnAction(event -> {
             FirstWindow firstWindow = new FirstWindow();
             firstWindow.start(stage, function);
+        });
+        openCalculator.setOnAction(event -> {
+            Calculator calculator = new Calculator();
+            calculator.start(stage, function);
         });
         BorderPane root = new BorderPane();
         root.setTop(menuBar);
@@ -58,6 +66,7 @@ public class GrWindow extends Application {
         stage.setTitle("The program of laboratory work");
         stage.setScene(scene);
     }
+
 
     public static void returnFun(AbstractTabulatedFunction function2) {
         function = function2;

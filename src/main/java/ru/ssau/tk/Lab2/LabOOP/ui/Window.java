@@ -99,29 +99,26 @@ public class Window {
     }
 
     public void newButtonListeners() {
-        newButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
+        newButton.setOnMouseClicked(event -> {
+            try {
+                double[] xValues = new double[records.size()];
+                double[] yValues = new double[records.size()];
+                for (int i = 0; i < records.size(); i++) {
+                    PointRecord pointRecord = records.get(i);
+                    xValues[i] = pointRecord.getX();
+                    yValues[i] = pointRecord.getY();
+                }
+                ArrayTabulatedFunctionFactory factory = new ArrayTabulatedFunctionFactory();
                 try {
-                    double[] xValues = new double[records.size()];
-                    double[] yValues = new double[records.size()];
-                    for (int i = 0; i < records.size(); i++) {
-                        PointRecord pointRecord = records.get(i);
-                        xValues[i] = pointRecord.getX();
-                        yValues[i] = pointRecord.getY();
-                    }
-                    ArrayTabulatedFunctionFactory factory = new ArrayTabulatedFunctionFactory();
-                    try {
-                        TabulatedFunction function = factory.create(xValues, yValues);
-                    } catch (Exception e) {
-                        ErrorWindows errorWindows = new ErrorWindows();
-                        errorWindows.showAlertWithoutHeaderText(e);
-                    }
-                    stage.close();
-                } catch (NumberFormatException e) {
+                    TabulatedFunction function = factory.create(xValues, yValues);
+                } catch (Exception e) {
                     ErrorWindows errorWindows = new ErrorWindows();
                     errorWindows.showAlertWithoutHeaderText(e);
                 }
+                stage.close();
+            } catch (NumberFormatException e) {
+                ErrorWindows errorWindows = new ErrorWindows();
+                errorWindows.showAlertWithoutHeaderText(e);
             }
         });
     }

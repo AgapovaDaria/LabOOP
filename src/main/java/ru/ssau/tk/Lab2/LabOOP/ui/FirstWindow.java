@@ -75,7 +75,8 @@ public class FirstWindow {
                 double xTo = Double.parseDouble(textField3.getText());
 
                 ArrayTabulatedFunctionFactory factory = new ArrayTabulatedFunctionFactory();
-                selectedFunction = factory.create(functionHashMap.getOrDefault(observableList, new ZeroFunction()), xFrom, xTo, count);
+                selectedFunction = factory.create(
+                        functionHashMap.getOrDefault(observableList, new ZeroFunction()), xFrom, xTo, count);
 
             } catch (NumberFormatException e) {
                 ErrorWindows errorWindows = new ErrorWindows();
