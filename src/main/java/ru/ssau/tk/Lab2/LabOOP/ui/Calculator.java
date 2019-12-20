@@ -12,7 +12,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import ru.ssau.tk.Lab2.LabOOP.functions.AbstractTabulatedFunction;
+import ru.ssau.tk.Lab2.LabOOP.functions.TabulatedFunction;
+import ru.ssau.tk.Lab2.LabOOP.operations.TabulatedFunctionOperationService;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -21,13 +22,11 @@ import java.util.Map;
 public class Calculator {
 
     private static Calculator instance = new Calculator();
-
     private enum CurrentFunction {
         FirstFunction,
         SecondFunction,
         ThirdFunction,
     }
-
     private static final int SPACING_SIZE = 10;
     private Button buttonFirstCreate = new Button("Create");
     private Button buttonFirstDownload = new Button("Download");
@@ -35,22 +34,20 @@ public class Calculator {
     private Button buttonSecondCreate = new Button("Create");
     private Button buttonSecondDownload = new Button("Download");
     private Button buttonSecondSave = new Button("Save");
+    private Button buttonCalc = new Button("Calculate");
     private TableView<PointRecord> firstTable = new TableView<>();
     private TableView<PointRecord> secondTable = new TableView<>();
     private TableView<PointRecord> thirdTable = new TableView<>();
-
     private ObservableList<PointRecord> firstRecords = FXCollections.observableArrayList();
     private ObservableList<PointRecord> secondRecords = FXCollections.observableArrayList();
     private ObservableList<PointRecord> thirdRecords = FXCollections.observableArrayList();
-
     private ChoiceBox<String> choiceBox;
     private Map<String, Method> nameOperationMap = new HashMap<>();
-
     private Stage stage = new Stage();
+    private TabulatedFunction firstFunction;
+    private TabulatedFunction secondFunction;
+    private TabulatedFunction thirdFunction;
 
-    private AbstractTabulatedFunction firstFunction;
-    private AbstractTabulatedFunction secondFunction;
-    private AbstractTabulatedFunction thirdFunction;
     private Calculator() {
     }
 
@@ -58,7 +55,7 @@ public class Calculator {
         return instance;
     }
 
-    public void start(Stage stage, AbstractTabulatedFunction tabulatedFunction) {
+    public void start(Stage stage, TabulatedFunction tabulatedFunction) {
         initUIComponents(stage);
         configureTable();
         stage.show();
@@ -77,11 +74,12 @@ public class Calculator {
         observableList.addAll("Сложение", "Вычитание", "Деление", "Умножение");
         choiceBox = new ChoiceBox<>(observableList);
         choiceBox.setValue("Сложение");
-
-        choiceBox.setOnAction( event -> {
-            if( firstFunction != null && secondFunction != null){
-                StartOperation();
-            }
+        HBox buttons2 = new HBox();
+        buttons2.getChildren().addAll(buttonCalc,choiceBox);
+        buttonCalc.setOnAction(event -> {
+            //if (firstFunction != null && secondFunction != null) {
+                startOperation();
+            //}
         });
 
         secondBox.setAlignment(Pos.TOP_CENTER);
@@ -92,44 +90,37 @@ public class Calculator {
         firstBox.getChildren().addAll(buttons, firstTable);
         secondBox.getChildren().addAll(buttons1, secondTable);
         thirdTable.setId("Result");
-        thirdBox.getChildren().addAll(choiceBox, thirdTable);
+        thirdBox.getChildren().addAll(buttons2, thirdTable);
         mainBox.getChildren().addAll(firstBox, secondBox, thirdBox);
         Scene scene = new Scene(mainBox, 700, 400);
         stage.setTitle("Calculator");
         stage.setScene(scene);
     }
 
-    private void InitTable(TableView<PointRecord> tableView, ObservableList<PointRecord> pointRecords,
-                           AbstractTabulatedFunction function, boolean editX, boolean editY) {
+    private void initTable(TableView<PointRecord> tableView, ObservableList<PointRecord> pointRecords,
+                           TabulatedFunction function, boolean editX, boolean editY) {
         tableView.getColumns().clear();
         tableView.setItems(pointRecords);
         tableView.setEditable(true);
-
         TableColumn<PointRecord, Double> xColumn = new TableColumn<>("X");
         TableColumn<PointRecord, Double> yColumn = new TableColumn<>("Y");
-
         yColumn.setEditable(editY);
         xColumn.setEditable(editX);
-
         xColumn.setCellValueFactory(new PropertyValueFactory<>("x"));
         yColumn.setCellValueFactory(new PropertyValueFactory<>("y"));
         yColumn.setCellFactory(column -> new TableProcessing());
         xColumn.setCellFactory(column -> new TableProcessing());
-
         yColumn.setOnEditCommit(event -> {
             int rowNumber = event.getTablePosition().getRow();
             if (rowNumber != -1) {
                 double value = event.getNewValue();
                 pointRecords.get(rowNumber).setY(value);
                 function.setY(rowNumber, value);
-                System.out.println(rowNumber);
+                //System.out.println(rowNumber);
             }
         });
-
-
         tableView.getColumns().add(xColumn);
         tableView.getColumns().add(yColumn);
-
     }
 
     private void configureTable() {
@@ -137,27 +128,27 @@ public class Calculator {
         buttonFirstCreate.setOnMouseClicked(event -> {
             Window window = new Window();
             window.start(stage, func -> {
-                returnFun((AbstractTabulatedFunction) func, firstRecords, CurrentFunction.FirstFunction);
-                InitTable(firstTable, firstRecords, firstFunction, false, true);
+                returnFun(func, firstRecords, CurrentFunction.FirstFunction);
+                initTable(firstTable, firstRecords, firstFunction, false, true);
             });
         });
 
         buttonSecondCreate.setOnMouseClicked(event -> {
             Window window = new Window();
             window.start(stage, func -> {
-                returnFun((AbstractTabulatedFunction) func, secondRecords, CurrentFunction.SecondFunction);
-                InitTable(secondTable, secondRecords, secondFunction, false, true);
+                returnFun(func, secondRecords, CurrentFunction.SecondFunction);
+                initTable(secondTable, secondRecords, secondFunction, false, true);
                 if (firstRecords.size() > 1 && firstRecords.size() != secondRecords.size()) {
                     ErrorWindows errorWindows = new ErrorWindows();
                     errorWindows.showAlertWithoutHeaderText(new Exception("Функции должны иметь одинаковые длины"));
                     return;
                 }
-                StartOperation();
+                startOperation();
             });
         });
     }
 
-    public void returnFun(AbstractTabulatedFunction function, ObservableList<PointRecord> records, CurrentFunction currentFunction) {
+    public void returnFun(TabulatedFunction function, ObservableList<PointRecord> records, CurrentFunction currentFunction) {
         switch (currentFunction) {
             case FirstFunction:
                 firstFunction = function;
@@ -166,7 +157,7 @@ public class Calculator {
                 secondFunction = function;
                 break;
             case ThirdFunction:
-               // thirdFunction = function;
+                // thirdFunction = function;
                 break;
             default:
                 break;
@@ -180,37 +171,39 @@ public class Calculator {
 
     }
 
-    private void StartOperation() {
+    private void startOperation() {
         if (firstFunction != null && (firstFunction.getCount() <= 1 || firstFunction.getCount() != secondFunction.getCount()))
             return;
-        AbstractTabulatedFunction function; // use   TabulatedFunctionOperationService  service;
+        TabulatedFunction function = null;
+        TabulatedFunctionOperationService operationService = new TabulatedFunctionOperationService();
         switch (choiceBox.getValue()) {
             case "Сложение":
+                function = operationService.sum(firstFunction, secondFunction);
                 break;
             case "Вычитание":
+                function = operationService.subtract(firstFunction, secondFunction);
                 break;
             case "Произведение":
+                function = operationService.multiplication(firstFunction, secondFunction);
                 break;
             case "Деление":
-                break;
-            case "Остаток от деления":
+                function = operationService.division(firstFunction, secondFunction);
                 break;
             default:
                 break;
         }
-
         for (int i = 0; i < secondFunction.getCount(); i++) {
 
-        }
-        //test
-        function = secondFunction;
+            //test
+           // function = ;
 
-        //после получения новой 3 функции делаем так
-        thirdFunction = function;
-        // задаем таблицу
-        InitTable(thirdTable, thirdRecords, thirdFunction, false, false);
-        // добавляем значения
-        returnFun(thirdFunction, thirdRecords, CurrentFunction.ThirdFunction);
+            //после получения новой 3 функции делаем так
+            thirdFunction = function;
+            // задаем таблицу
+            initTable(thirdTable, thirdRecords, thirdFunction, false, false);
+            // добавляем значения
+            returnFun(thirdFunction, thirdRecords, CurrentFunction.ThirdFunction);
+        }
     }
 
 }

@@ -1,8 +1,6 @@
 package ru.ssau.tk.Lab2.LabOOP.operations;
 
 import ru.ssau.tk.Lab2.LabOOP.exceptions.InconsistentFunctionsException;
-import ru.ssau.tk.Lab2.LabOOP.functions.AbstractTabulatedFunction;
-import ru.ssau.tk.Lab2.LabOOP.functions.ArrayTabulatedFunction;
 import ru.ssau.tk.Lab2.LabOOP.functions.Point;
 import ru.ssau.tk.Lab2.LabOOP.functions.TabulatedFunction;
 import ru.ssau.tk.Lab2.LabOOP.functions.factory.ArrayTabulatedFunctionFactory;
@@ -47,9 +45,10 @@ public class TabulatedFunctionOperationService {
         double[] xValues = new double[a.getCount()];
         double[] yValues = new double[a.getCount()];
         for (int i = 0; i < a.getCount(); i++) {
-            if (arrPoints1[i].x != arrPoints2[i].x) {
+            /*if (arrPoints1[i].x != arrPoints2[i].x) {
                 throw new InconsistentFunctionsException();
             }
+             */
             xValues[i] = arrPoints1[i].x;
             yValues[i] = operation.apply(arrPoints1[i].y, arrPoints2[i].y);
         }
