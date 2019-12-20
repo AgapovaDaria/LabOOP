@@ -2,18 +2,15 @@ package ru.ssau.tk.Lab2.LabOOP.ui;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import ru.ssau.tk.Lab2.LabOOP.functions.AbstractTabulatedFunction;
 import ru.ssau.tk.Lab2.LabOOP.functions.TabulatedFunction;
 import ru.ssau.tk.Lab2.LabOOP.functions.factory.ArrayTabulatedFunctionFactory;
 
@@ -27,12 +24,19 @@ public class Window {
     private TableView<PointRecord> table = new TableView<>();
     private Stage stage = new Stage();
 
-    public void start(Stage parameterStage, AbstractTabulatedFunction function) {
+    private OnCreateCallbackFunc callbackFunc;
+
+    public void start(Stage parameterStage, OnCreateCallbackFunc callbackFunc) {
+        this.callbackFunc = callbackFunc;
         compose(parameterStage);
         configureTable();
         addButtonListeners();
         newButtonListeners();
         stage.show();
+    }
+
+    public TableView<PointRecord> getTable(){
+        return table;
     }
 
     public void compose(Stage parameterStage) {
@@ -98,6 +102,9 @@ public class Window {
         });
     }
 
+    /**
+     * show after createButton clicked
+     */
     public void newButtonListeners() {
         newButton.setOnMouseClicked(event -> {
             try {
@@ -111,15 +118,22 @@ public class Window {
                 ArrayTabulatedFunctionFactory factory = new ArrayTabulatedFunctionFactory();
                 try {
                     TabulatedFunction function = factory.create(xValues, yValues);
+                    callbackFunc.apply(function);
+                    stage.close();
                 } catch (Exception e) {
                     ErrorWindows errorWindows = new ErrorWindows();
                     errorWindows.showAlertWithoutHeaderText(e);
                 }
-                stage.close();
+
             } catch (NumberFormatException e) {
                 ErrorWindows errorWindows = new ErrorWindows();
                 errorWindows.showAlertWithoutHeaderText(e);
             }
         });
+    }
+
+
+    public interface OnCreateCallbackFunc{
+         void apply(TabulatedFunction function);
     }
 }

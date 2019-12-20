@@ -3,13 +3,13 @@ package ru.ssau.tk.Lab2.LabOOP.ui;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyCombination;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import ru.ssau.tk.Lab2.LabOOP.functions.AbstractTabulatedFunction;
-import ru.ssau.tk.Lab2.LabOOP.functions.TabulatedFunction;
-import ru.ssau.tk.Lab2.LabOOP.operations.TabulatedFunctionOperationService;
 
 
 public class GrWindow extends Application {
@@ -47,7 +47,9 @@ public class GrWindow extends Application {
         exitItem.setOnAction(actionEvent -> Platform.exit());
         tableItem.setOnAction(event -> {
             Window window = new Window();
-            window.start(stage, function);
+            window.start(stage, function -> {
+                returnFun((AbstractTabulatedFunction) function);
+            });
 
         });
         openFileItem.setOnAction(event -> {
@@ -55,7 +57,7 @@ public class GrWindow extends Application {
             firstWindow.start(stage, function);
         });
         openCalculator.setOnAction(event -> {
-            Calculator calculator = new Calculator();
+            Calculator calculator = Calculator.getInstance();
             calculator.start(stage, function);
         });
         BorderPane root = new BorderPane();
@@ -66,7 +68,6 @@ public class GrWindow extends Application {
         stage.setTitle("The program of laboratory work");
         stage.setScene(scene);
     }
-
 
     public static void returnFun(AbstractTabulatedFunction function2) {
         function = function2;

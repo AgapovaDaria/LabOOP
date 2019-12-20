@@ -4,93 +4,86 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import ru.ssau.tk.Lab2.LabOOP.functions.*;
-import ru.ssau.tk.Lab2.LabOOP.operations.TabulatedFunctionOperationService;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import ru.ssau.tk.Lab2.LabOOP.functions.AbstractTabulatedFunction;
+
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Calculator {
 
+    private static Calculator instance = new Calculator();
+
+    private enum CurrentFunction {
+        FirstFunction,
+        SecondFunction,
+        ThirdFunction,
+    }
+
     private static final int SPACING_SIZE = 10;
-    private Button buttonCreate = new Button("Create");
-    private Button buttonDownload = new Button("Download");
-    private Button buttonSave = new Button("Save");
-    private Button buttonCreate1 = new Button("Create");
-    private Button buttonDownload1 = new Button("Download");
-    private Button buttonSave1 = new Button("Save");
+    private Button buttonFirstCreate = new Button("Create");
+    private Button buttonFirstDownload = new Button("Download");
+    private Button buttonFirstSave = new Button("Save");
+    private Button buttonSecondCreate = new Button("Create");
+    private Button buttonSecondDownload = new Button("Download");
+    private Button buttonSecondSave = new Button("Save");
     private TableView<PointRecord> firstTable = new TableView<>();
     private TableView<PointRecord> secondTable = new TableView<>();
     private TableView<PointRecord> thirdTable = new TableView<>();
+
+    private ObservableList<PointRecord> firstRecords = FXCollections.observableArrayList();
+    private ObservableList<PointRecord> secondRecords = FXCollections.observableArrayList();
+    private ObservableList<PointRecord> thirdRecords = FXCollections.observableArrayList();
+
+    private ChoiceBox<String> choiceBox;
     private Map<String, Method> nameOperationMap = new HashMap<>();
 
-
     private Stage stage = new Stage();
-    private static AbstractTabulatedFunction function;
 
-
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target(ElementType.METHOD)
-    private @interface Operation {
-
-        String value();
+    private AbstractTabulatedFunction firstFunction;
+    private AbstractTabulatedFunction secondFunction;
+    private AbstractTabulatedFunction thirdFunction;
+    private Calculator() {
     }
 
-    @Operation("Сложение")
-    public static TabulatedFunction sum(TabulatedFunction a, TabulatedFunction b) {
-        TabulatedFunctionOperationService functionOperationService = new TabulatedFunctionOperationService();
-        return functionOperationService.sum(a, b);
-    }
-
-    @Operation("Вычитание")
-    public static double subtract(double a, double b) {
-        return a - b;
-    }
-
-    @Operation("Произведение")
-    public static double product(double a, double b) {
-        return a * b;
-    }
-
-    @Operation("Деление")
-    public static double division(double a, double b) {
-        return a / b;
-    }
-
-    @Operation("Остаток от деления")
-    public static double reminder(double a, double b) {
-        return a % b;
+    public static Calculator getInstance() {
+        return instance;
     }
 
     public void start(Stage stage, AbstractTabulatedFunction tabulatedFunction) {
-        initUIComponents(stage); // компоновка
+        initUIComponents(stage);
         configureTable();
-        //initOperations();
-        //initButtonListener();
         stage.show();
     }
 
     private void initUIComponents(Stage stage) {
         HBox mainBox = new HBox();
         HBox buttons = new HBox();
-        buttons.getChildren().addAll(buttonCreate, buttonDownload, buttonSave);
+        buttons.getChildren().addAll(buttonFirstCreate, buttonFirstDownload, buttonFirstSave);
         HBox buttons1 = new HBox();
-        buttons1.getChildren().addAll(buttonCreate1, buttonDownload1, buttonSave1);
+        buttons1.getChildren().addAll(buttonSecondCreate, buttonSecondDownload, buttonSecondSave);
         VBox firstBox = new VBox();
         VBox secondBox = new VBox();
         VBox thirdBox = new VBox();
         ObservableList<String> observableList = FXCollections.observableArrayList();
         observableList.addAll("Сложение", "Вычитание", "Деление", "Умножение");
-        ChoiceBox<String> choiceBox = new ChoiceBox<>(observableList);
+        choiceBox = new ChoiceBox<>(observableList);
         choiceBox.setValue("Сложение");
+
+        choiceBox.setOnAction( event -> {
+            if( firstFunction != null && secondFunction != null){
+                StartOperation();
+            }
+        });
+
         secondBox.setAlignment(Pos.TOP_CENTER);
         buttons.setSpacing(SPACING_SIZE);
         firstBox.setAlignment(Pos.TOP_LEFT);
@@ -106,41 +99,118 @@ public class Calculator {
         stage.setScene(scene);
     }
 
-    private void configureTable() {
+    private void InitTable(TableView<PointRecord> tableView, ObservableList<PointRecord> pointRecords,
+                           AbstractTabulatedFunction function, boolean editX, boolean editY) {
+        tableView.getColumns().clear();
+        tableView.setItems(pointRecords);
+        tableView.setEditable(true);
 
-        buttonCreate.setOnMouseClicked(event -> {
-            Window window = new Window();
-            window.start(stage, function);
+        TableColumn<PointRecord, Double> xColumn = new TableColumn<>("X");
+        TableColumn<PointRecord, Double> yColumn = new TableColumn<>("Y");
 
+        yColumn.setEditable(editY);
+        xColumn.setEditable(editX);
+
+        xColumn.setCellValueFactory(new PropertyValueFactory<>("x"));
+        yColumn.setCellValueFactory(new PropertyValueFactory<>("y"));
+        yColumn.setCellFactory(column -> new TableProcessing());
+        xColumn.setCellFactory(column -> new TableProcessing());
+
+        yColumn.setOnEditCommit(event -> {
+            int rowNumber = event.getTablePosition().getRow();
+            if (rowNumber != -1) {
+                double value = event.getNewValue();
+                pointRecords.get(rowNumber).setY(value);
+                function.setY(rowNumber, value);
+                System.out.println(rowNumber);
+            }
         });
+
+
+        tableView.getColumns().add(xColumn);
+        tableView.getColumns().add(yColumn);
 
     }
 
-    /*private void initOperations() {
-        Arrays.stream(Calculator.class.getMethods())
-        .filter(method -> method.isAnnotationPresent(Operation.class))
-        .forEach(method -> {
-        Operation operation = method.getAnnotation(Operation.class);
-        String operationName = operation.value();
-        nameOperationMap.put(operationName, method);
+    private void configureTable() {
+
+        buttonFirstCreate.setOnMouseClicked(event -> {
+            Window window = new Window();
+            window.start(stage, func -> {
+                returnFun((AbstractTabulatedFunction) func, firstRecords, CurrentFunction.FirstFunction);
+                InitTable(firstTable, firstRecords, firstFunction, false, true);
+            });
         });
-        nameOperationMap.keySet().forEach(operationComboBox::addItem);
+
+        buttonSecondCreate.setOnMouseClicked(event -> {
+            Window window = new Window();
+            window.start(stage, func -> {
+                returnFun((AbstractTabulatedFunction) func, secondRecords, CurrentFunction.SecondFunction);
+                InitTable(secondTable, secondRecords, secondFunction, false, true);
+                if (firstRecords.size() > 1 && firstRecords.size() != secondRecords.size()) {
+                    ErrorWindows errorWindows = new ErrorWindows();
+                    errorWindows.showAlertWithoutHeaderText(new Exception("Функции должны иметь одинаковые длины"));
+                    return;
+                }
+                StartOperation();
+            });
+        });
+    }
+
+    public void returnFun(AbstractTabulatedFunction function, ObservableList<PointRecord> records, CurrentFunction currentFunction) {
+        switch (currentFunction) {
+            case FirstFunction:
+                firstFunction = function;
+                break;
+            case SecondFunction:
+                secondFunction = function;
+                break;
+            case ThirdFunction:
+               // thirdFunction = function;
+                break;
+            default:
+                break;
         }
-}
-*/
-//  private void initButtonListener() {
-//      calcButton.addActionListener(event -> {
-//          try {
-//              double first = Double.parseDouble(firstTextField.getText());
-//              double second = Double.parseDouble(secondTextField.getText());
-//              String operationName = (String) operationComboBox.getSelectedItem();
-//              Method operation = nameOperationMap.get(operationName);
-//              Double result = (Double) operation.invoke(null, first, second);
-//              resultTextField.setText(result.toString());
-//          } catch (Exception e) {
-//              OptionPane.showMessageDialog(this, e.getStackTrace());
-//          }
-//      });
-// }*/
+
+        records.clear();
+        for (int i = 0; i < function.getCount(); i++) {
+            PointRecord point = new PointRecord(function.getX(i), function.getY(i));
+            records.add(point);
+        }
+
+    }
+
+    private void StartOperation() {
+        if (firstFunction != null && (firstFunction.getCount() <= 1 || firstFunction.getCount() != secondFunction.getCount()))
+            return;
+        AbstractTabulatedFunction function; // use   TabulatedFunctionOperationService  service;
+        switch (choiceBox.getValue()) {
+            case "Сложение":
+                break;
+            case "Вычитание":
+                break;
+            case "Произведение":
+                break;
+            case "Деление":
+                break;
+            case "Остаток от деления":
+                break;
+            default:
+                break;
+        }
+
+        for (int i = 0; i < secondFunction.getCount(); i++) {
+
+        }
+        //test
+        function = secondFunction;
+
+        //после получения новой 3 функции делаем так
+        thirdFunction = function;
+        // задаем таблицу
+        InitTable(thirdTable, thirdRecords, thirdFunction, false, false);
+        // добавляем значения
+        returnFun(thirdFunction, thirdRecords, CurrentFunction.ThirdFunction);
+    }
 
 }
