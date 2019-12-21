@@ -5,6 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 import ru.ssau.tk.Lab2.LabOOP.exceptions.ArrayIsNotSortedException;
+import ru.ssau.tk.Lab2.LabOOP.exceptions.InconsistentFunctionsException;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -32,6 +33,9 @@ public class ErrorWindows {
         }
         if (e instanceof ArrayIsNotSortedException) {
             return "Array is not sorted.";
+        }
+        if (e instanceof InconsistentFunctionsException){
+            return "X are different";
         }
         return "Unknown error.";
     }

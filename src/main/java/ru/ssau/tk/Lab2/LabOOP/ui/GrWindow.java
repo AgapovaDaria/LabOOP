@@ -9,12 +9,13 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import ru.ssau.tk.Lab2.LabOOP.functions.AbstractTabulatedFunction;
+import ru.ssau.tk.Lab2.LabOOP.functions.factory.ArrayTabulatedFunctionFactory;
+import ru.ssau.tk.Lab2.LabOOP.functions.factory.TabulatedFunctionFactory;
 
 
 public class GrWindow extends Application {
     private static final int SPACING_SIZE = 10;
-    private static AbstractTabulatedFunction function;
+    private static TabulatedFunctionFactory factory = new ArrayTabulatedFunctionFactory();
 
     @Override
     public void start(Stage stage) {
@@ -48,17 +49,17 @@ public class GrWindow extends Application {
         tableItem.setOnAction(event -> {
             Window window = new Window();
             window.start(stage, function -> {
-                returnFun((AbstractTabulatedFunction) function);
+                returnFun(factory);
             });
 
         });
         openFileItem.setOnAction(event -> {
             FirstWindow firstWindow = new FirstWindow();
-            firstWindow.start(stage, function);
+            firstWindow.start(stage, factory);
         });
         openCalculator.setOnAction(event -> {
             Calculator calculator = Calculator.getInstance();
-            calculator.start(stage, function);
+            calculator.start(stage, factory);
         });
         BorderPane root = new BorderPane();
         root.setTop(menuBar);
@@ -69,7 +70,7 @@ public class GrWindow extends Application {
         stage.setScene(scene);
     }
 
-    public static void returnFun(AbstractTabulatedFunction function2) {
-        function = function2;
+    public static void returnFun(TabulatedFunctionFactory factory2) {
+        factory = factory2;
     }
 }

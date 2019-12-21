@@ -18,7 +18,7 @@ public class Window {
     private static final int SPACING_SIZE = 10;
 
     private TextField textField = new TextField();
-    private Button addRowButton = new Button("Save");
+    private Button addRowButton = new Button("Add");
     private Button newButton = new Button("Create");
     private ObservableList<PointRecord> records = FXCollections.observableArrayList();
     private TableView<PointRecord> table = new TableView<>();

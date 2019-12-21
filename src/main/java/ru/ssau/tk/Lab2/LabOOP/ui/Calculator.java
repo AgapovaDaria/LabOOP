@@ -11,22 +11,30 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import ru.ssau.tk.Lab2.LabOOP.functions.TabulatedFunction;
+import ru.ssau.tk.Lab2.LabOOP.functions.factory.TabulatedFunctionFactory;
 import ru.ssau.tk.Lab2.LabOOP.operations.TabulatedFunctionOperationService;
 
+import java.io.*;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+import static ru.ssau.tk.Lab2.LabOOP.io.FunctionsIO.deserialize;
+import static ru.ssau.tk.Lab2.LabOOP.io.FunctionsIO.serialize;
+
 public class Calculator {
 
     private static Calculator instance = new Calculator();
+
     private enum CurrentFunction {
-        FirstFunction,
-        SecondFunction,
-        ThirdFunction,
+        FIRST_FUNCTION,
+        SECOND_FUNCTION,
+        THIRD_FUNCTION,
     }
+
     private static final int SPACING_SIZE = 10;
     private Button buttonFirstCreate = new Button("Create");
     private Button buttonFirstDownload = new Button("Download");
@@ -35,6 +43,7 @@ public class Calculator {
     private Button buttonSecondDownload = new Button("Download");
     private Button buttonSecondSave = new Button("Save");
     private Button buttonCalc = new Button("Calculate");
+    private Button buttonThrirdSave = new Button("Save");
     private TableView<PointRecord> firstTable = new TableView<>();
     private TableView<PointRecord> secondTable = new TableView<>();
     private TableView<PointRecord> thirdTable = new TableView<>();
@@ -47,6 +56,8 @@ public class Calculator {
     private TabulatedFunction firstFunction;
     private TabulatedFunction secondFunction;
     private TabulatedFunction thirdFunction;
+    private TabulatedFunctionFactory factory;
+    private final FileChooser fileChooser = new FileChooser();
 
     private Calculator() {
     }
@@ -55,7 +66,8 @@ public class Calculator {
         return instance;
     }
 
-    public void start(Stage stage, TabulatedFunction tabulatedFunction) {
+    public void start(Stage stage, TabulatedFunctionFactory factory) {
+        this.factory = factory;
         initUIComponents(stage);
         configureTable();
         stage.show();
@@ -75,13 +87,76 @@ public class Calculator {
         choiceBox = new ChoiceBox<>(observableList);
         choiceBox.setValue("Сложение");
         HBox buttons2 = new HBox();
-        buttons2.getChildren().addAll(buttonCalc,choiceBox);
+        buttons2.getChildren().addAll(buttonCalc, choiceBox,buttonThrirdSave);
         buttonCalc.setOnAction(event -> {
-            //if (firstFunction != null && secondFunction != null) {
+            if (firstFunction != null && secondFunction != null) {
                 startOperation();
-            //}
+            } else {
+                ErrorWindows errorWindows = new ErrorWindows();
+                errorWindows.showAlertWithoutHeaderText(new Exception("Functions are null"));
+            }
+        });
+        buttonFirstSave.setOnAction(event -> {
+            File file = fileChooser.showSaveDialog(stage);
+            if (file != null) {
+                try (BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(file))) {
+                    serialize(bufferedOutputStream, firstFunction);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        buttonFirstDownload.setOnAction(event -> {
+            File file = fileChooser.showOpenDialog(stage);
+            if (file != null) {
+                try (BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(file))) {
+                    TabulatedFunction readFunction = deserialize(bufferedInputStream);
+                    firstFunction = readFunction;
+                    returnFun(firstFunction, firstRecords, CurrentFunction.FIRST_FUNCTION);
+                    initTable(firstTable, firstRecords, firstFunction, false, true);
+
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
         });
 
+        buttonSecondSave.setOnAction(event -> {
+            File file = fileChooser.showSaveDialog(stage);
+            if (file != null) {
+                try (BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(file))) {
+                    serialize(bufferedOutputStream, secondFunction);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        buttonSecondDownload.setOnAction(event -> {
+            File file = fileChooser.showOpenDialog(stage);
+            if (file != null) {
+                try (BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(file))) {
+                    TabulatedFunction readFunction = deserialize(bufferedInputStream);
+                    secondFunction = readFunction;
+                    returnFun(secondFunction, secondRecords, CurrentFunction.SECOND_FUNCTION);
+                    initTable(secondTable, secondRecords, secondFunction, false, true);
+
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        buttonThrirdSave.setOnAction(event -> {
+            File file = fileChooser.showSaveDialog(stage);
+            if (file != null) {
+                try (BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(file))) {
+                    serialize(bufferedOutputStream, thirdFunction);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         secondBox.setAlignment(Pos.TOP_CENTER);
         buttons.setSpacing(SPACING_SIZE);
         firstBox.setAlignment(Pos.TOP_LEFT);
@@ -128,7 +203,7 @@ public class Calculator {
         buttonFirstCreate.setOnMouseClicked(event -> {
             Window window = new Window();
             window.start(stage, func -> {
-                returnFun(func, firstRecords, CurrentFunction.FirstFunction);
+                returnFun(func, firstRecords, CurrentFunction.FIRST_FUNCTION);
                 initTable(firstTable, firstRecords, firstFunction, false, true);
             });
         });
@@ -136,74 +211,68 @@ public class Calculator {
         buttonSecondCreate.setOnMouseClicked(event -> {
             Window window = new Window();
             window.start(stage, func -> {
-                returnFun(func, secondRecords, CurrentFunction.SecondFunction);
+                returnFun(func, secondRecords, CurrentFunction.SECOND_FUNCTION);
                 initTable(secondTable, secondRecords, secondFunction, false, true);
-                if (firstRecords.size() > 1 && firstRecords.size() != secondRecords.size()) {
-                    ErrorWindows errorWindows = new ErrorWindows();
-                    errorWindows.showAlertWithoutHeaderText(new Exception("Функции должны иметь одинаковые длины"));
-                    return;
-                }
-                startOperation();
             });
         });
     }
 
     public void returnFun(TabulatedFunction function, ObservableList<PointRecord> records, CurrentFunction currentFunction) {
         switch (currentFunction) {
-            case FirstFunction:
+            case FIRST_FUNCTION:
                 firstFunction = function;
                 break;
-            case SecondFunction:
+            case SECOND_FUNCTION:
                 secondFunction = function;
                 break;
-            case ThirdFunction:
+            case THIRD_FUNCTION:
                 // thirdFunction = function;
                 break;
             default:
                 break;
         }
-
         records.clear();
         for (int i = 0; i < function.getCount(); i++) {
             PointRecord point = new PointRecord(function.getX(i), function.getY(i));
             records.add(point);
         }
-
     }
 
     private void startOperation() {
-        if (firstFunction != null && (firstFunction.getCount() <= 1 || firstFunction.getCount() != secondFunction.getCount()))
-            return;
-        TabulatedFunction function = null;
-        TabulatedFunctionOperationService operationService = new TabulatedFunctionOperationService();
-        switch (choiceBox.getValue()) {
-            case "Сложение":
-                function = operationService.sum(firstFunction, secondFunction);
-                break;
-            case "Вычитание":
-                function = operationService.subtract(firstFunction, secondFunction);
-                break;
-            case "Произведение":
-                function = operationService.multiplication(firstFunction, secondFunction);
-                break;
-            case "Деление":
-                function = operationService.division(firstFunction, secondFunction);
-                break;
-            default:
-                break;
+        if (firstFunction.getCount() != secondFunction.getCount()) {
+            ErrorWindows errorWindows = new ErrorWindows();
+            errorWindows.showAlertWithoutHeaderText(new Exception("Functions must have the same length"));
         }
-        for (int i = 0; i < secondFunction.getCount(); i++) {
+        TabulatedFunction function = null;
+        try {
+            TabulatedFunctionOperationService operationService = new TabulatedFunctionOperationService(factory);
+            switch (choiceBox.getValue()) {
+                case "Сложение":
+                    function = operationService.sum(firstFunction, secondFunction);
+                    break;
+                case "Вычитание":
+                    function = operationService.subtract(firstFunction, secondFunction);
+                    break;
+                case "Умножение":
+                    function = operationService.multiplication(firstFunction, secondFunction);
+                    break;
+                case "Деление":
+                    function = operationService.division(firstFunction, secondFunction);
+                    break;
+                default:
+                    break;
+            }
+            for (int i = 0; i < secondFunction.getCount(); i++) {
 
-            //test
-           // function = ;
-
-            //после получения новой 3 функции делаем так
-            thirdFunction = function;
-            // задаем таблицу
-            initTable(thirdTable, thirdRecords, thirdFunction, false, false);
-            // добавляем значения
-            returnFun(thirdFunction, thirdRecords, CurrentFunction.ThirdFunction);
+                thirdFunction = function;
+                // задаем таблицу
+                initTable(thirdTable, thirdRecords, thirdFunction, false, false);
+                // добавляем значения
+                returnFun(thirdFunction, thirdRecords, CurrentFunction.THIRD_FUNCTION);
+            }
+        } catch (Exception e) {
+            ErrorWindows errorWindows = new ErrorWindows();
+            errorWindows.showAlertWithoutHeaderText(e);
         }
     }
-
 }

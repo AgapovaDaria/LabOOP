@@ -15,17 +15,22 @@ import javafx.stage.Stage;
 import ru.ssau.tk.Lab2.LabOOP.functions.AbstractTabulatedFunction;
 import ru.ssau.tk.Lab2.LabOOP.functions.ArrayTabulatedFunction;
 import ru.ssau.tk.Lab2.LabOOP.functions.LinkedListTabulatedFunction;
+import ru.ssau.tk.Lab2.LabOOP.functions.factory.ArrayTabulatedFunctionFactory;
+import ru.ssau.tk.Lab2.LabOOP.functions.factory.LinkedListTabulatedFunctionFactory;
+import ru.ssau.tk.Lab2.LabOOP.functions.factory.TabulatedFunctionFactory;
 
 import java.util.HashMap;
 
 public class SettingsWindow extends Stage {
 
     private static final int SPACING_SIZE = 10;
-    private AbstractTabulatedFunction function = new ArrayTabulatedFunction();
+    private TabulatedFunctionFactory factory = new ArrayTabulatedFunctionFactory();
     private Stage stage = new Stage();
     private Button okButton = new Button("Ок");
     ObservableList<String> observableList = FXCollections.observableArrayList();
-    HashMap<String, AbstractTabulatedFunction> functionHashMap;
+    HashMap<String, TabulatedFunctionFactory> functionHashMap;
+    private static final String arrayFactoryName = "Фабрика функции-массива";
+    private static final String listFactoryName = "Фабрика функции-двухсвязного списка";
 
     public void start(Stage parameterStage) {
         compose(parameterStage);
@@ -46,7 +51,7 @@ public class SettingsWindow extends Stage {
         buttonBox.getChildren().addAll(okButton);
         Label label = new Label("Generation factory:  ");
         ComboBox<String> langsComboBox = new ComboBox<>(observableList);
-        langsComboBox.setValue(function.toString());
+        langsComboBox.setValue(arrayFactoryName);
         langsComboBox.getSelectionModel().selectFirst();
         textBox.getChildren().addAll(label, langsComboBox);
         mainBox.getChildren().addAll(textBox, buttonBox);
@@ -61,22 +66,18 @@ public class SettingsWindow extends Stage {
     private void setInitValue() {
         functionHashMap = new HashMap<>();
 
-        function = new ArrayTabulatedFunction();
-        functionHashMap.put(function.toString(), function);
-        observableList.add(function.toString());
+        functionHashMap.put(arrayFactoryName, new ArrayTabulatedFunctionFactory());
+        observableList.add(arrayFactoryName);
 
-        function = new LinkedListTabulatedFunction();
-        functionHashMap.put(function.toString(), function);
-        observableList.add(function.toString());
+        functionHashMap.put(listFactoryName, new LinkedListTabulatedFunctionFactory());
+        observableList.add(listFactoryName);
 
-        observableList = FXCollections.observableArrayList(
-                function.toString()
-        );
+        observableList = FXCollections.observableArrayList(arrayFactoryName, listFactoryName);
     }
 
     public void addButtonListeners() {
         okButton.setOnMouseClicked(event -> {
-            GrWindow.returnFun(function);
+            GrWindow.returnFun(factory);
             stage.close();
         });
     }

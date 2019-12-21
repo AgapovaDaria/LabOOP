@@ -15,6 +15,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ru.ssau.tk.Lab2.LabOOP.functions.*;
 import ru.ssau.tk.Lab2.LabOOP.functions.factory.ArrayTabulatedFunctionFactory;
+import ru.ssau.tk.Lab2.LabOOP.functions.factory.TabulatedFunctionFactory;
 
 import java.util.*;
 
@@ -31,10 +32,12 @@ public class FirstWindow {
     private ObservableList<String> observableList;
     private HashMap<String, MathFunction> functionHashMap;
     private TabulatedFunction selectedFunction;
+    private TabulatedFunctionFactory factory;
 
     private Stage stage = new Stage();
 
-    public void start(Stage parameterStage, AbstractTabulatedFunction function) {
+    public void start(Stage parameterStage, TabulatedFunctionFactory factory) {
+        this.factory = factory;
         setInitValue();
         compose(parameterStage);
         newButtonListeners();
@@ -74,7 +77,6 @@ public class FirstWindow {
                 double xFrom = Double.parseDouble(textField2.getText());
                 double xTo = Double.parseDouble(textField3.getText());
 
-                ArrayTabulatedFunctionFactory factory = new ArrayTabulatedFunctionFactory();
                 selectedFunction = factory.create(
                         functionHashMap.getOrDefault(observableList, new ZeroFunction()), xFrom, xTo, count);
 
