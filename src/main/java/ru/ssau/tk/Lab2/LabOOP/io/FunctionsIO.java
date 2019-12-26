@@ -2,6 +2,11 @@ package ru.ssau.tk.Lab2.LabOOP.io;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.StaxDriver;
+import com.thoughtworks.xstream.security.NoTypePermission;
+import com.thoughtworks.xstream.security.NullPermission;
+import com.thoughtworks.xstream.security.PrimitiveTypePermission;
 import ru.ssau.tk.Lab2.LabOOP.functions.ArrayTabulatedFunction;
 import ru.ssau.tk.Lab2.LabOOP.functions.Point;
 import ru.ssau.tk.Lab2.LabOOP.functions.TabulatedFunction;
@@ -10,6 +15,7 @@ import ru.ssau.tk.Lab2.LabOOP.functions.factory.TabulatedFunctionFactory;
 import java.io.*;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.Collection;
 import java.util.Locale;
 
 public final class FunctionsIO {
@@ -94,5 +100,16 @@ public final class FunctionsIO {
         } catch (JsonMappingException e) {
             throw new IOException(e);
         }
+    }
+
+    public static void serializeXml(BufferedWriter writer, ArrayTabulatedFunction function) throws IOException {
+        XStream xStream = new XStream(new StaxDriver());
+        xStream.toXML(function,writer);
+        writer.flush();
+    }
+
+    public static ArrayTabulatedFunction deserializeXml(BufferedReader reader){
+        XStream xStream = new XStream(new StaxDriver());
+        return (ArrayTabulatedFunction) xStream.fromXML(reader);
     }
 }

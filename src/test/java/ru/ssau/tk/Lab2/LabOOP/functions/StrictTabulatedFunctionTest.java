@@ -1,7 +1,5 @@
 package ru.ssau.tk.Lab2.LabOOP.functions;
 
-import static org.testng.Assert.*;
-
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;

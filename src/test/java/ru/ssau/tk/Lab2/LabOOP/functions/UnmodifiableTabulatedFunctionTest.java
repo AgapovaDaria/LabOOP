@@ -1,6 +1,5 @@
 package ru.ssau.tk.Lab2.LabOOP.functions;
 
-import org.junit.BeforeClass;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
