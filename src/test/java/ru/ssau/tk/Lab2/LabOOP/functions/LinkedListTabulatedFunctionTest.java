@@ -196,5 +196,32 @@ public class LinkedListTabulatedFunctionTest {
         assertEquals(firstList.getX(1), 4, 0.0001);
         assertThrows(IllegalArgumentException.class, () -> firstList.remove(-1));
     }
+
+    @Test(dependsOnMethods = {"testLeftBound", "testRightBound"})
+    public void testInsert() {
+        LinkedListTabulatedFunction function = listOfList();
+        LinkedListTabulatedFunction insertFun = listOfList();
+        LinkedListTabulatedFunction empty = new LinkedListTabulatedFunction();
+
+        int funCount = function.getCount();
+        int funInsertCount = insertFun.getCount();
+
+        double value1 = insertFun.leftBound() - 1;
+        double value2 = insertFun.rightBound() + 1;
+
+        empty.insert(1, 2);
+        function.insert(4., 4);
+        insertFun.insert(value1, 3);
+        insertFun.insert(value2, 43);
+
+        assertEquals(empty.indexOfX(1), 0);
+        assertEquals(empty.getY(empty.indexOfX(1)), 2);
+        assertEquals(empty.getCount(), 1);
+        assertEquals(function.getY(function.indexOfX(4.)), 4);
+        assertEquals(function.getCount(), funCount);
+        assertEquals(insertFun.getY(insertFun.indexOfX(value1)), 3);
+        assertEquals(insertFun.getY(insertFun.indexOfX(value2)), 43);
+        assertEquals(insertFun.getCount(), funInsertCount+2);
+    }
 }
 

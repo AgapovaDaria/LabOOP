@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements Serializable, Removable {
+public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements Serializable, Removable, Insertable {
     private static final long serialVersionUID = 3418284856807134116L;
     private Node head; // первый элемент "голова"
     private Node last; //последний узел списка "хвост"
@@ -65,7 +65,7 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
         }
     }
 
-    public LinkedListTabulatedFunction(){
+    public LinkedListTabulatedFunction() {
 
     }
 
@@ -88,7 +88,7 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
         }
         if (index > (count / 2)) {
             a = last;
-            for (int i = count - 1; i > 0; i--) {
+            for (int i = count - 1; i >= 0; i--) {
                 if (i == index) {
                     return a;
                 } else {
@@ -104,7 +104,7 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
                     a = a.next;
                 }
             }
-        }
+       }
         throw new IllegalArgumentException();
     }
 
@@ -216,7 +216,6 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
         return interpolate(x, head.x, head.next.x, head.y, head.next.y);
     }
 
-
     @Override
     protected double extrapolateRight(double x) {
         if (head.x == last.x) {
@@ -235,7 +234,6 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
         Node right = left.next;
         return interpolate(x, left.x, right.x, left.y, right.y);
     }
-
 
     @Override
     public Iterator<Point> iterator() {
@@ -296,6 +294,40 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
     @Override
     public String toString() {
         return "Реализация на основе связного списка";
+    }
+
+    @Override
+    public void insert(double x, double y) {
+        if(count == 0){
+            addNode(x,y);
+        } else if (indexOfX(x) != -1) {
+            setY(indexOfX(x), y);
+        } else {
+            int index = x < head.x ? 0 : floorIndexOfX(x);
+            if(index == 0){
+                addNode(x,y);
+                return;
+            }
+            Node newNode = new Node();
+            if (index == count) {
+                newNode.next = head;
+                newNode.prev = head.prev;
+                head.prev.next = newNode;
+                newNode.next.prev = newNode;
+                last = newNode;
+            } else {
+                last = newNode;
+                Node prev = getNode(index);
+                Node next = prev.next;
+                newNode.next = next;
+                newNode.prev = prev;
+                prev.next = newNode;
+                next.prev = newNode;
+            }
+            newNode.x = x;
+            newNode.y = y;
+            count++;
+        }
     }
 }
 
