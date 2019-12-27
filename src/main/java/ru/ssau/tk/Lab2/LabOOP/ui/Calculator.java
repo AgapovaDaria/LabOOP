@@ -2,6 +2,7 @@ package ru.ssau.tk.Lab2.LabOOP.ui;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -76,12 +77,16 @@ public class Calculator {
     private void initUIComponents(Stage stage) {
         HBox mainBox = new HBox();
         HBox buttons = new HBox();
+        buttons.setSpacing(SPACING_SIZE);
         buttons.getChildren().addAll(buttonFirstCreate, buttonFirstDownload, buttonFirstSave);
         HBox buttons1 = new HBox();
         buttons1.getChildren().addAll(buttonSecondCreate, buttonSecondDownload, buttonSecondSave);
         VBox firstBox = new VBox();
+        firstBox.setPadding(new Insets(SPACING_SIZE));
         VBox secondBox = new VBox();
+        secondBox.setPadding(new Insets(SPACING_SIZE));
         VBox thirdBox = new VBox();
+        thirdBox.setPadding(new Insets(SPACING_SIZE));
         ObservableList<String> observableList = FXCollections.observableArrayList();
         observableList.addAll(stringSum, stringSub, stringDivision, stringMultiplication);
         choiceBox = new ChoiceBox<>(observableList);
@@ -168,7 +173,17 @@ public class Calculator {
         thirdTable.setId("Result");
         thirdBox.getChildren().addAll(buttons2, thirdTable);
         mainBox.getChildren().addAll(firstBox, secondBox, thirdBox);
-        Scene scene = new Scene(mainBox, 700, 400);
+        Scene scene = new Scene(mainBox, 800, 450);
+        buttonFirstCreate.setStyle("-fx-background-color: #4682B4; " + "-fx-text-base-color: white;");
+        buttonFirstDownload.setStyle("-fx-background-color: #4682B4; " + "-fx-text-base-color: white;");
+        buttonFirstSave.setStyle("-fx-background-color: #4682B4; " + "-fx-text-base-color: white;");
+        buttonSecondCreate.setStyle("-fx-background-color: #4682B4; " + "-fx-text-base-color: white;");
+        buttonSecondDownload.setStyle("-fx-background-color: #4682B4; " + "-fx-text-base-color: white;");
+        buttonSecondSave.setStyle("-fx-background-color: #4682B4; " + "-fx-text-base-color: white;");
+        buttonCalc.setStyle("-fx-background-color: #4682B4; " + "-fx-text-base-color: white;");
+        buttonThirdSave.setStyle("-fx-background-color: #4682B4; " + "-fx-text-base-color: white;");
+        choiceBox.setStyle("-fx-background-color: #4682B4; " + "-fx-text-base-color: white;"+"-fx-control-inner-background: #4682B4");
+        mainBox.setStyle("-fx-background-color: linear-gradient(to bottom, #E6E6FA, #778899);");
         stage.setTitle("Calculator");
         stage.setScene(scene);
     }

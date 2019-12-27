@@ -60,6 +60,7 @@ public class Window {
         stage.initModality(Modality.WINDOW_MODAL);
         stage.initOwner(parameterStage);
         stage.setTitle("Creating a value table");
+        mainBox.setStyle("-fx-background-color: linear-gradient(to bottom, #E6E6FA, #778899);");
         stage.setScene(scene);
     }
 
