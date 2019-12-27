@@ -51,7 +51,6 @@ public class GrWindow extends Application {
             window.start(stage, function -> {
                 returnFun(factory);
             });
-
         });
         openFileItem.setOnAction(event -> {
             FirstWindow firstWindow = new FirstWindow();

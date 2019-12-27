@@ -18,9 +18,6 @@ import ru.ssau.tk.Lab2.LabOOP.functions.factory.TabulatedFunctionFactory;
 import ru.ssau.tk.Lab2.LabOOP.operations.TabulatedFunctionOperationService;
 
 import java.io.*;
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
 
 import static ru.ssau.tk.Lab2.LabOOP.io.FunctionsIO.deserialize;
 import static ru.ssau.tk.Lab2.LabOOP.io.FunctionsIO.serialize;
@@ -35,6 +32,10 @@ public class Calculator {
         THIRD_FUNCTION,
     }
 
+    private final String stringSum = "Сложение";
+    private final String stringSub = "Вычитание";
+    private final String stringDivision = "Деление";
+    private final String stringMultiplication = "Умножение";
     private static final int SPACING_SIZE = 10;
     private Button buttonFirstCreate = new Button("Create");
     private Button buttonFirstDownload = new Button("Download");
@@ -43,7 +44,7 @@ public class Calculator {
     private Button buttonSecondDownload = new Button("Download");
     private Button buttonSecondSave = new Button("Save");
     private Button buttonCalc = new Button("Calculate");
-    private Button buttonThrirdSave = new Button("Save");
+    private Button buttonThirdSave = new Button("Save");
     private TableView<PointRecord> firstTable = new TableView<>();
     private TableView<PointRecord> secondTable = new TableView<>();
     private TableView<PointRecord> thirdTable = new TableView<>();
@@ -51,7 +52,6 @@ public class Calculator {
     private ObservableList<PointRecord> secondRecords = FXCollections.observableArrayList();
     private ObservableList<PointRecord> thirdRecords = FXCollections.observableArrayList();
     private ChoiceBox<String> choiceBox;
-    private Map<String, Method> nameOperationMap = new HashMap<>();
     private Stage stage = new Stage();
     private TabulatedFunction firstFunction;
     private TabulatedFunction secondFunction;
@@ -83,11 +83,11 @@ public class Calculator {
         VBox secondBox = new VBox();
         VBox thirdBox = new VBox();
         ObservableList<String> observableList = FXCollections.observableArrayList();
-        observableList.addAll("Сложение", "Вычитание", "Деление", "Умножение");
+        observableList.addAll(stringSum, stringSub, stringDivision, stringMultiplication);
         choiceBox = new ChoiceBox<>(observableList);
-        choiceBox.setValue("Сложение");
+        choiceBox.setValue(stringSum);
         HBox buttons2 = new HBox();
-        buttons2.getChildren().addAll(buttonCalc, choiceBox,buttonThrirdSave);
+        buttons2.getChildren().addAll(buttonCalc, choiceBox, buttonThirdSave);
         buttonCalc.setOnAction(event -> {
             if (firstFunction != null && secondFunction != null) {
                 startOperation();
@@ -147,7 +147,7 @@ public class Calculator {
             }
         });
 
-        buttonThrirdSave.setOnAction(event -> {
+        buttonThirdSave.setOnAction(event -> {
             File file = fileChooser.showSaveDialog(stage);
             if (file != null) {
                 try (BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(file))) {
@@ -159,9 +159,10 @@ public class Calculator {
         });
         secondBox.setAlignment(Pos.TOP_CENTER);
         buttons.setSpacing(SPACING_SIZE);
+        buttons1.setSpacing(SPACING_SIZE);
         firstBox.setAlignment(Pos.TOP_LEFT);
         thirdBox.setAlignment(Pos.TOP_RIGHT);
-        buttons1.setSpacing(SPACING_SIZE);
+        buttons2.setSpacing(SPACING_SIZE);
         firstBox.getChildren().addAll(buttons, firstTable);
         secondBox.getChildren().addAll(buttons1, secondTable);
         thirdTable.setId("Result");
@@ -247,16 +248,16 @@ public class Calculator {
         try {
             TabulatedFunctionOperationService operationService = new TabulatedFunctionOperationService(factory);
             switch (choiceBox.getValue()) {
-                case "Сложение":
+                case stringSum:
                     function = operationService.sum(firstFunction, secondFunction);
                     break;
-                case "Вычитание":
+                case stringSub:
                     function = operationService.subtract(firstFunction, secondFunction);
                     break;
-                case "Умножение":
+                case stringMultiplication:
                     function = operationService.multiplication(firstFunction, secondFunction);
                     break;
-                case "Деление":
+                case stringDivision:
                     function = operationService.division(firstFunction, secondFunction);
                     break;
                 default:
